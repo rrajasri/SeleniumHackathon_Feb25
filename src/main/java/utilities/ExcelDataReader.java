@@ -1,4 +1,4 @@
-package utilitities;
+package utilities;
 
 public class ExcelDataReader {
 
