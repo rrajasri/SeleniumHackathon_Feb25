@@ -1,5 +1,7 @@
 Feature: Program functionality
-
+    
+    
+    @navigationtoprogrampage
     Scenario: Verify that Admin is able to navigate to Program page
     Given Admin is on home page after Login
     When Admin clicks "Program" on the navigation bar
