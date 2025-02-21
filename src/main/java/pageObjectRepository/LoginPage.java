@@ -7,7 +7,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
@@ -17,14 +19,19 @@ import net.sourceforge.tess4j.TesseractException;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import io.reactivex.rxjava3.internal.observers.ForEachWhileObserver;
 import utilitities.ConfigReader;
+import utilitities.ExcelDataReader;
 
 public class LoginPage {
 
@@ -50,13 +57,17 @@ public class LoginPage {
 	private By selectRoleDropdown = By.xpath("//mat-select[@id='mat-select-0']");
 	private By Selectroledropdownitems = By.xpath("//span[@class='mat-option-text']");
 	private By SelectroleArrow = By.xpath("//div[@class='mat-select-arrow ng-tns-c161-3']");
-	private By Usernamealert = By.xpath("//mat-error[@id='mat-error-1']");
-	private By Passwordalert = By.xpath("//mat-error[@id='mat-error-2']");
+	private By Usernamealert = By.xpath("//mat-error[contains(text() , 'user name')]");
+	private By Passwordalert = By.xpath("//mat-error[contains(text() , ' Please enter your password ')]");
 	private By InvalidURLalertmessage = By.className("message__title");
 	private By Iframe = By.xpath("//iframe[1]");//By.tagName("iframe")
 	private By Loginform = By.xpath("//mat-card[@class='mat-card mat-focus-indicator']");
+	private By adminselection = By.xpath("//span[text()=' Admin ']");
 	
 	private static Properties prop;
+	private String filePath ="C:\\Users\\rakhy\\Selenium_Hackathon\\SeleniumHackathon_Feb25\\src\\test\\resources\\testData\\Logindata.xlsx";
+	
+	private ExcelDataReader reader = new ExcelDataReader();
 
 	public String getpagetitle() {
 
@@ -199,9 +210,16 @@ public class LoginPage {
 		 WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 		 wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(Selectroledropdownitems));
 	        List<WebElement> options = driver.findElements(Selectroledropdownitems);
-	        return options.stream()
-	                      .map(WebElement::getText)
-	                      .collect(Collectors.toList());
+	        List<String> optionTexts = new ArrayList<>();
+	        for(  WebElement option : options)
+	        {
+	        	optionTexts.add(option.getText());
+	        }
+         
+			//	        	        return options.stream()
+//	                      .map(WebElement::getText)
+//	                      .collect(Collectors.toList());
+			return optionTexts ;
 		
 		 
 	 }
@@ -247,5 +265,99 @@ public class LoginPage {
 		 
 		return driver.findElement(passwordFiled).getCssValue("color");
 		 
+	 }
+	 
+	 public void enterValidLogin(String username, String password) {
+		 
+		 driver.findElement(userField).sendKeys(username);
+		 driver.findElement(passwordFiled).sendKeys(password);
+		 
+	 }
+	 public void validLogin(String sheetName, int rowNumber) throws InvalidFormatException, IOException {
+		 
+		 List<Map<String, String>> excelData = reader.getData(filePath, sheetName);
+		 String Username = excelData.get(rowNumber).get("UserName");
+		 String Password = excelData.get(rowNumber).get("Password");
+		enterValidLogin(Username , Password);
+		selectrole();
+		clicklogin();
+		
+		 
+	 }
+	 
+	 public void clicklogin() {
+		 
+		 driver.findElement(LoginButton).click();
+	 }
+	 
+	 public void selectrole() {
+		 
+		 driver.findElement(SelectroleArrow).click();
+		 driver.findElement(adminselection).click();
+	 }
+	 
+	 public WebElement errormessage() {
+		 
+		 WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+	        WebElement errorMessage = null;
+	            errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("errorMessage")));
+		       return errorMessage ;
+		 
+	 }
+	 
+	 public void  enterusername() throws InvalidFormatException, IOException {
+		 String sheetname = "Sheet1";
+		 List<Map<String, String>> excelData = reader.getData(filePath, sheetname);
+		 String Username = excelData.get(2).get("UserName");
+		 String Password = "";
+		 enterValidLogin(Username , Password);
+		 selectrole();
+		 clicklogin();
+		 
+	 }
+	 public void  enterpassword() throws InvalidFormatException, IOException {
+		 String sheetname = "Sheet1";
+		 List<Map<String, String>> excelData = reader.getData(filePath, sheetname);
+		 String Password = excelData.get(2).get("Password");
+		 String username = "";
+		 enterValidLogin(username ,Password);
+		 selectrole();
+		 clicklogin();
+ 	 }
+
+	 public String getuserrequiredmesg() {
+		 
+		return driver.findElement(Usernamealert).getText();
+		 
+	 }
+	 
+	 public String getpasswordrequiredmsg() {
+		 
+		return driver.findElement(Passwordalert).getText();
+		 
+	 }
+	 
+	 public void validloginwithfunctions() throws InvalidFormatException, IOException {
+		 
+		 String sheetname = "Sheet1";
+		 List<Map<String, String>> excelData = reader.getData(filePath, sheetname);
+		 String Username = excelData.get(2).get("UserName");
+		 String Password = excelData.get(2).get("password");
+		 selectrole();
+		 
+	 }
+	 public void enterkeys() {
+		 
+		 driver.findElement(LoginButton).sendKeys(Keys.ENTER);
+	 }
+	 
+	 public void useActions() {
+		 Actions actions = new Actions(driver);
+
+		// Find the element to hover over
+		WebElement elementToHover = driver.findElement(LoginButton);
+
+		// Perform hover action
+		actions.moveToElement(elementToHover).perform();
 	 }
 }

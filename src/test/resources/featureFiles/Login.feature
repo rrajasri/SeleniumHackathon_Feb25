@@ -70,13 +70,13 @@ Given The browser is open
 When Admin gives the correct LMS portal URL
 Then Admin should see "Select the role" placeholder in dropdown
 
-Scenario: Verify dropdown option to select role
+Scenario Outline: Verify dropdown option to select role
 Given The browser is open
 When Admin gives the correct LMS portal URL
-Then Admin should see the following options in the dropdown:
-      | Admin  |
-      | Staff  |
-      | Student |
+Then Admin should see the following "<option1>", "<option2>", "<option3>" in the dropdown
+Examples:
+  | option1 | option2 | option3 |
+  | Admin   | Staff   | Student |
       
 Scenario: Verify the alignment input field for the login
 Given The browser is open
