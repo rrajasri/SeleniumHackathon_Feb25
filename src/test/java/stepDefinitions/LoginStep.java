@@ -4,6 +4,7 @@ import static org.testng.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import net.sourceforge.tess4j.ITesseract;
@@ -150,11 +151,11 @@ public class LoginStep {
 		String text = login.dropdownLabel();
 		Assert.assertEquals(text, string);
 	}
-
-	 @Then("Admin should see the following options in the dropdown:")
-	    public void admin_should_see_the_following_options_in_the_dropdown(DataTable dataTable) {
-		
-		 List<String> expectedOptions = dataTable.asList(String.class);
+	
+	@Then("Admin should see the following {string}, {string}, {string} in the dropdown")
+	public void admin_should_see_the_following_in_the_dropdown(String option1, String option2, String option3){
+      
+		List<String> expectedOptions = Arrays.asList(option1, option2, option3);
 		 List<String> actualDropdownValues = login.dropdownitems();
 			Assert.assertEquals(expectedOptions, actualDropdownValues);
 	}
