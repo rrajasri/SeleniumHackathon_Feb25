@@ -42,7 +42,7 @@ public class ExcelforFeature {
                 if (row == null) continue; // Skip empty rows                                                                   
 
                 // Retrieve cell values
-                String scenario = getCellValue(row.getCell(1                                                     ));
+                String scenario = getCellValue(row.getCell(1));
                 String given = getCellValue(row.getCell(3));
                 String when = getCellValue(row.getCell(4));
                 String then = getCellValue(row.getCell(5));
