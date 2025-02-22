@@ -118,24 +118,22 @@ public class LoginPage {
 	public List<String> applicationText() throws TesseractException, IOException {
 		List<String> linesList = new ArrayList<>();
 			try {		
-			 String tessDataPath = "C:\\Program Files\\Tesseract-OCR";
-	            System.setProperty("TESSDATA_PREFIX", tessDataPath);
-	            System.setProperty("jna.library.path", "\"C:\\Users\\rakhy\\Selenium_Hackathon\\tess4jdlls\"");
+			 String tessDataPath = "C:\\Program Files\\Tesseract-OCR\\tessdata";
+	        
         // Path to the image file
-        String path = "C:\\Users\\rakhy\\Selenium_Hackathon\\SeleniumHackathon_Feb25\\src\\test\\resources\\LMS-logo.png";
+        String path = "C:\\Users\\rakhy\\Selenium_Hackathon\\SeleniumHackathon_Feb25\\src\\test\\resources\\Testdataforpng\\LMS-logo.jpg";
         File imageFile = new File(path);
         if (!imageFile.exists()) {
             throw new RuntimeException("Image file not found at: " + path);
         }
 
         // Initialize Tesseract
-        ITesseract tesseract = new Tesseract();
-        tesseract.setDatapath(tessDataPath);
-        tesseract.setLanguage("eng");
-
+        ITesseract tesseract1 = new Tesseract();
+        tesseract1.setDatapath(tessDataPath);
         // Perform OCR
         System.out.println("Starting OCR...");
-        String result = tesseract.doOCR(imageFile);
+        String result = tesseract1.doOCR(imageFile);
+        //System.out.println(result);
         System.out.println("OCR completed.");
 
         // Process the result
