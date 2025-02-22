@@ -1,5 +1,8 @@
 Feature: Logout functionality
 
+Background:
+Given Admin is logged into the application
+
     Scenario: Verify logout function
     Given Admin is in home page
     When Admin clicks on the logout in the menu bar
