@@ -3,6 +3,7 @@ package pageObjectRepository;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class BatchPage {
 	
@@ -54,8 +55,62 @@ public class BatchPage {
 	@FindBy (xpath = "//*[@class='p-sortable-column-icon pi pi-fw pi-sort-alt']")
 	WebElement sortIcon;  //Sort icon next to headers in data table
 	
+	@FindBy (xpath = "//*[@id=\"mat-menu-panel-1\"]/div/button")
+	WebElement addNewBatchMenu; //Add new batch sub menu
+	
 	@FindBy (xpath = "//span[contains(@class, 'p-dialog-title') and text()='Batch Details']")
 	WebElement batchDetailsWindow;  //Batch details window after clicking add new batch sub menu
 	
+	@FindBy (xpath = "//span[contains(@class, 'p-button-label') and text()='Cancel']")
+	WebElement cancelButtonInBatchDetails; //Cancel button in batch details window
+	
+	@FindBy (xpath = "//span[contains(@class, 'p-button-label') and text()='Save']")
+	WebElement saveButtonInBatchDetails;  //Save button in batch details window
+	
+	@FindBy (xpath = "//*[@id=\"programName\"]/div/input[@placeholder='Select a Program name']")
+	WebElement selectProgramNameListBox; //List box for select program name in batch details window
+	
+	@FindBy (xpath = "//*[@id=\"batchProg\"]")
+	WebElement batchNameFirstInputtBox;  //1st input box under batch name in batch details window
+	
+	@FindBy (xpath = "//*[@id=\"batchName\"]")
+	WebElement batchNameSecondInputBox;  //2nd input box under batch name in batch details window
+	
+	@FindBy (xpath = "//*[@id=\"batchDescription\"]")
+	WebElement batchDescriptionInputBox;  //Batch description input box in batch details window
+	
+	@FindBy (xpath = "//div[contains (@class, 'p-dialog-header-icons')]")
+	WebElement closeButtonInBatchDetailsBox;  //Close button (X) in batch details dialog box
+	
+	@FindBy (xpath = "//*[@id='filterGlobal']")
+	WebElement searchBox; //Search box in main page
+	
+	
+	public void navigateToBatchPage(WebDriver webDriver) {
+		driver = webDriver;
+		PageFactory.initElements(driver, this);
+	}
+	
+	public void clickOnBatch()
+	{
+		batchMenu.click();
+	}
+	
+	public void clickOnBatchMenu() {
+		addNewBatchSubMenu.click();
+	}
 
+	public void selectProgramNameBatchDetailsPopup() {
+		selectProgramNameListBox.click();
+	}
+	
+	public void clickOnSave() {
+		saveButtonInBatchDetails.click();
+	}
+	
+	public void clickOnCancel() {
+		cancelButtonInBatchDetails.click();
+	}
+
+	
 }
