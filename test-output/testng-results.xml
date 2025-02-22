@@ -2,76 +2,56 @@
 <testng-results ignored="0" total="1" passed="0" failed="1" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2025-02-19T14:44:26 CST" name="Default suite" finished-at="2025-02-19T14:44:27 CST" duration-ms="952">
+  <suite started-at="2025-02-22T10:36:21 CST" name="Default suite" finished-at="2025-02-22T10:36:26 CST" duration-ms="5172">
     <groups>
       <group name="cucumber">
         <method signature="AbstractTestNGCucumberTests.runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:runner.TestRunner@4c5ae43b]" name="runScenario" class="io.cucumber.testng.AbstractTestNGCucumberTests"/>
       </group> <!-- cucumber -->
     </groups>
-    <test started-at="2025-02-19T14:44:26 CST" name="Default test" finished-at="2025-02-19T14:44:27 CST" duration-ms="952">
+    <test started-at="2025-02-22T10:36:21 CST" name="Default test" finished-at="2025-02-22T10:36:26 CST" duration-ms="5172">
       <class name="runner.TestRunner">
-        <test-method is-config="true" signature="setUpClass(org.testng.ITestContext)[pri:0, instance:runner.TestRunner@4c5ae43b]" started-at="2025-02-19T14:44:26 CST" name="setUpClass" finished-at="2025-02-19T14:44:27 CST" duration-ms="727" status="PASS">
+        <test-method is-config="true" signature="setUpClass(org.testng.ITestContext)[pri:0, instance:runner.TestRunner@4c5ae43b]" started-at="2025-02-22T10:36:21 CST" name="setUpClass" finished-at="2025-02-22T10:36:22 CST" duration-ms="500" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[org.testng.TestRunner@267517e4]]>
+                <![CDATA[org.testng.TestRunner@670b3ca]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUpClass -->
-        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:runner.TestRunner@4c5ae43b]" started-at="2025-02-19T14:44:27 CST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2025-02-19T14:44:27 CST" duration-ms="106" status="FAIL">
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:runner.TestRunner@4c5ae43b]" started-at="2025-02-22T10:36:22 CST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2025-02-22T10:36:26 CST" duration-ms="4583" status="FAIL">
           <params>
             <param index="0">
               <value>
-                <![CDATA["Verify that Admin is able to navigate to Program page"]]>
+                <![CDATA["Verify Admin is able to search results found for program name"]]>
               </value>
             </param>
             <param index="1">
               <value>
-                <![CDATA["Program functionality"]]>
+                <![CDATA["Program Module Add new Program Functionality"]]>
               </value>
             </param>
           </params>
           <exception class="io.cucumber.testng.UndefinedStepException">
             <message>
-              <![CDATA[The step 'Admin is on home page after Login' and 2 other step(s) are undefined.
-You can implement these steps using the snippet(s) below:
+              <![CDATA[The step 'Admin enter the program to search By program name "tryEditor" and 1' is undefined.
+You can implement this step using the snippet(s) below:
 
-@Given("Admin is on home page after Login")
-public void admin_is_on_home_page_after_login() {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
-}
-@When("Admin clicks {string} on the navigation bar")
-public void admin_clicks_on_the_navigation_bar(String string) {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
-}
-@Then("Admin should be navigated to Program page")
-public void admin_should_be_navigated_to_program_page() {
+@When("Admin enter the program to search By program name {string} and {int}")
+public void admin_enter_the_program_to_search_by_program_name_and(String string, Integer int1) {
     // Write code here that turns the phrase above into concrete actions
     throw new io.cucumber.java.PendingException();
 }
 ]]>
             </message>
             <full-stacktrace>
-              <![CDATA[io.cucumber.testng.UndefinedStepException: The step 'Admin is on home page after Login' and 2 other step(s) are undefined.
-You can implement these steps using the snippet(s) below:
+              <![CDATA[io.cucumber.testng.UndefinedStepException: The step 'Admin enter the program to search By program name "tryEditor" and 1' is undefined.
+You can implement this step using the snippet(s) below:
 
-@Given("Admin is on home page after Login")
-public void admin_is_on_home_page_after_login() {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
-}
-@When("Admin clicks {string} on the navigation bar")
-public void admin_clicks_on_the_navigation_bar(String string) {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
-}
-@Then("Admin should be navigated to Program page")
-public void admin_should_be_navigated_to_program_page() {
+@When("Admin enter the program to search By program name {string} and {int}")
+public void admin_enter_the_program_to_search_by_program_name_and(String string, Integer int1) {
     // Write code here that turns the phrase above into concrete actions
     throw new io.cucumber.java.PendingException();
 }
@@ -116,7 +96,7 @@ at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
           <reporter-output>
           </reporter-output>
         </test-method> <!-- runScenario -->
-        <test-method is-config="true" signature="tearDownClass()[pri:0, instance:runner.TestRunner@4c5ae43b]" started-at="2025-02-19T14:44:27 CST" name="tearDownClass" finished-at="2025-02-19T14:44:27 CST" duration-ms="62" status="PASS">
+        <test-method is-config="true" signature="tearDownClass()[pri:0, instance:runner.TestRunner@4c5ae43b]" started-at="2025-02-22T10:36:26 CST" name="tearDownClass" finished-at="2025-02-22T10:36:26 CST" duration-ms="46" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDownClass -->

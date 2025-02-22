@@ -57,9 +57,9 @@ function toggleAllBoxes() {
 <tr>
 <td>Tests passed/Failed/Skipped:</td><td>0/1/0</td>
 </tr><tr>
-<td>Started on:</td><td>Wed Feb 19 14:44:26 CST 2025</td>
+<td>Started on:</td><td>Sat Feb 22 10:36:21 CST 2025</td>
 </tr>
-<tr><td>Total time:</td><td>0 seconds (952 ms)</td>
+<tr><td>Total time:</td><td>5 seconds (5172 ms)</td>
 </tr><tr>
 <td>Included groups:</td><td></td>
 </tr><tr>
@@ -76,22 +76,12 @@ function toggleAllBoxes() {
 <td><b>Instance</b></td>
 </tr>
 <tr>
-<td title='runner.TestRunner.runScenario()'><b>runScenario</b><br>Test class: runner.TestRunner<br>Test method: Runs Cucumber Scenarios<br>Parameters: "Verify that Admin is able to navigate to Program page", "Program functionality"</td>
-<td><div><pre>io.cucumber.testng.UndefinedStepException: The step &apos;Admin is on home page after Login&apos; and 2 other step(s) are undefined.
-You can implement these steps using the snippet(s) below:
+<td title='runner.TestRunner.runScenario()'><b>runScenario</b><br>Test class: runner.TestRunner<br>Test method: Runs Cucumber Scenarios<br>Parameters: "Verify Admin is able to search results found for program name", "Program Module Add new Program Functionality"</td>
+<td><div><pre>io.cucumber.testng.UndefinedStepException: The step &apos;Admin enter the program to search By program name &quot;tryEditor&quot; and 1&apos; is undefined.
+You can implement this step using the snippet(s) below:
 
-@Given(&quot;Admin is on home page after Login&quot;)
-public void admin_is_on_home_page_after_login() {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
-}
-@When(&quot;Admin clicks {string} on the navigation bar&quot;)
-public void admin_clicks_on_the_navigation_bar(String string) {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
-}
-@Then(&quot;Admin should be navigated to Program page&quot;)
-public void admin_should_be_navigated_to_program_page() {
+@When(&quot;Admin enter the program to search By program name {string} and {int}&quot;)
+public void admin_enter_the_program_to_search_by_program_name_and(String string, Integer int1) {
     // Write code here that turns the phrase above into concrete actions
     throw new io.cucumber.java.PendingException();
 }
@@ -130,22 +120,12 @@ public void admin_should_be_navigated_to_program_page() {
 	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
 	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:293)
 	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
-</pre></div><a href='#' onClick='toggleBox("stack-trace1300132917", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
-<div class='stack-trace' id='stack-trace1300132917'><pre>io.cucumber.testng.UndefinedStepException: The step &apos;Admin is on home page after Login&apos; and 2 other step(s) are undefined.
-You can implement these steps using the snippet(s) below:
+</pre></div><a href='#' onClick='toggleBox("stack-trace1698746141", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
+<div class='stack-trace' id='stack-trace1698746141'><pre>io.cucumber.testng.UndefinedStepException: The step &apos;Admin enter the program to search By program name &quot;tryEditor&quot; and 1&apos; is undefined.
+You can implement this step using the snippet(s) below:
 
-@Given(&quot;Admin is on home page after Login&quot;)
-public void admin_is_on_home_page_after_login() {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
-}
-@When(&quot;Admin clicks {string} on the navigation bar&quot;)
-public void admin_clicks_on_the_navigation_bar(String string) {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
-}
-@Then(&quot;Admin should be navigated to Program page&quot;)
-public void admin_should_be_navigated_to_program_page() {
+@When(&quot;Admin enter the program to search By program name {string} and {int}&quot;)
+public void admin_enter_the_program_to_search_by_program_name_and(String string, Integer int1) {
     // Write code here that turns the phrase above into concrete actions
     throw new io.cucumber.java.PendingException();
 }
@@ -185,7 +165,7 @@ public void admin_should_be_navigated_to_program_page() {
 	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:293)
 	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
 </pre></div></td>
-<td>0</td>
+<td>4</td>
 <td>runner.TestRunner@4c5ae43b</td></tr>
 </table><p>
 </body>
