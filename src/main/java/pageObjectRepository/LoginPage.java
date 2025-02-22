@@ -1,35 +1,27 @@
 package pageObjectRepository;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.stream.Collectors;
 
-import net.sourceforge.tess4j.ITesseract;
-import net.sourceforge.tess4j.Tesseract;
-import net.sourceforge.tess4j.TesseractException;
-import javax.imageio.ImageIO;
-
-import org.apache.commons.io.FileUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import io.reactivex.rxjava3.internal.observers.ForEachWhileObserver;
+import net.sourceforge.tess4j.ITesseract;
+import net.sourceforge.tess4j.Tesseract;
+import net.sourceforge.tess4j.TesseractException;
 import utilitities.ConfigReader;
 import utilitities.ExcelDataReader;
 
@@ -44,7 +36,6 @@ public class LoginPage {
 
 	// Locators
 
-	private By appImage = By.xpath("//img[@class='images']");
 	private By loginHeader = By.xpath("//p[text()='Please login to LMS application']");
 	private By userLabel = By.xpath("//span[text()='User']");
 	private By userField = By.xpath("//input[@id='username']");
@@ -124,50 +115,45 @@ public class LoginPage {
 	}
 	
 	
-	public String applicationText() throws TesseractException {
-		
-		// Initialize Tesseract OCR
-		String tessDataPath = "C:\\Users\\rakhy\\Selenium_Hackathon\\SeleniumHackathon_Feb25\\src\\test\\resources\\tessdata";
-		System.setProperty("TESSDATA_PREFIX", tessDataPath);
-		 String path = "C:\\Users\\rakhy\\Selenium_Hackathon\\SeleniumHackathon_Feb25\\LMS-logo.png"; // Path to image
-	        ITesseract tesseract = new Tesseract();
-	        tesseract.setDatapath(tessDataPath);
-	        tesseract.setLanguage("eng");
-		
-		String result = tesseract.doOCR(new File(path));
-		result = result.replaceAll("[^a-zA-Z0-9\\s]", "").trim();
-		 String[] lines = result.split("\n");
-	        if (lines.length > 0) {
-	            return lines[0].trim();  // Return the first line of text
-	        }
+	public List<String> applicationText() throws TesseractException, IOException {
+		List<String> linesList = new ArrayList<>();
+			try {		
+			 String tessDataPath = "C:\\Program Files\\Tesseract-OCR";
+	            System.setProperty("TESSDATA_PREFIX", tessDataPath);
+	            System.setProperty("jna.library.path", "\"C:\\Users\\rakhy\\Selenium_Hackathon\\tess4jdlls\"");
+        // Path to the image file
+        String path = "C:\\Users\\rakhy\\Selenium_Hackathon\\SeleniumHackathon_Feb25\\src\\test\\resources\\LMS-logo.png";
+        File imageFile = new File(path);
+        if (!imageFile.exists()) {
+            throw new RuntimeException("Image file not found at: " + path);
+        }
 
-	        return null;  // Return null if no text was found
-	    }
-	
-	public String getcomapnyname() throws TesseractException {
-		
-		String tessDataPath = "\"C:\\Program Files\\Tesseract-OCR\\tessdata";
-		System.setProperty("TESSDATA_PREFIX", tessDataPath);
-		 String path = "C:\\Users\\rakhy\\Selenium_Hackathon\\SeleniumHackathon_Feb25\\LMS-logo.png"; // Path to image
-	        ITesseract tesseract = new Tesseract();
-	        tesseract.setDatapath(tessDataPath);
-	        tesseract.setLanguage("eng");
+        // Initialize Tesseract
+        ITesseract tesseract = new Tesseract();
+        tesseract.setDatapath(tessDataPath);
+        tesseract.setLanguage("eng");
 
-	        // Perform OCR on the image
-	        String result = tesseract.doOCR(new File(path));
+        // Perform OCR
+        System.out.println("Starting OCR...");
+        String result = tesseract.doOCR(imageFile);
+        System.out.println("OCR completed.");
 
-	        // Optional: Clean up result
-	        result = result.replaceAll("[^a-zA-Z0-9\\s]", "").trim();
+        // Process the result
+        result = result.replaceAll("[^a-zA-Z0-9\\s]", "").trim();
+        String[] lines = result.split("\n");
 
-	        // Split and return the second line of the OCR result
-	        String[] lines = result.split("\n");
-	        if (lines.length > 1) {
-	            return lines[1].trim();  // Return the second line of text
-	        }
+        for (String line : lines) {
+            linesList.add(line.trim());
+        }
 
-	        return null;  // Return null if no second line was found
-	    }
-
+        return linesList; // Return the list of lines
+    } catch (TesseractException e) {
+        e.printStackTrace();
+        linesList.add("Error: " + e.getMessage()); // Add error message to the list
+        return linesList;
+    }
+}
+	    	
 	public String getLoginHeader() {
 		
 		return driver.findElement(loginHeader).getText();

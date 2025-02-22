@@ -1,19 +1,12 @@
 package stepDefinitions;
 
-import static org.testng.Assert.assertTrue;
-
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import net.sourceforge.tess4j.ITesseract;
-import net.sourceforge.tess4j.Tesseract;
-
 import org.testng.Assert;
 
 import driverFactory.DriverFactory;
-import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -75,24 +68,44 @@ public class LoginStep {
 	@Then("Admin should see  LMS - Learning Management System")
 	public void admin_should_see_lms_learning_management_system() throws Exception {
 		
-		 String extractedText = login.applicationText();
-	     String expectedText = "LMS - Learning Management System";
-      
+		 List<String> extractedText = login.applicationText();
+		 String expectedText = "LMS - Learning Management System";
+	      
+		 boolean found = false;
+	        for (String line : extractedText) {
+	            if (line.contains(expectedText)) {
+	                Assert.assertEquals(line, expectedText);
+	                found = true;
+	                break;
+	            }
+	        }
 
-        // Assert that the extracted text matches the expected text
-		  Assert.assertEquals(extractedText, expectedText);
+	        // Fail the test if the expected text is not found
+	        if (!found) {
+	            Assert.fail("Expected text '" + expectedText + "' not found in extracted lines: " + extractedText);
+	        }
 
 	}
 
 	@Then("Admin should see company name below the app name")
 	public void admin_should_see_company_name_below_the_app_name() throws Exception {
 		
-		   String companyname = login.getcomapnyname();
+		 List<String> extractedText = login.applicationText();
             // Define the expected company name
             String expectedText = "NumpyNinja"; 
+            boolean found = false;
+            for (String line : extractedText) {
+                if (line.contains(expectedText)) {
+                    Assert.assertEquals(line, expectedText);
+                    found = true;
+                    break;
+                }
+            }
 
-            Assert.assertEquals(companyname, expectedText);
-		
+            // Fail the test if the expected text is not found
+            if (!found) {
+                Assert.fail("Expected text '" + expectedText + "' not found in extracted lines: " + extractedText);
+            }
 	}
 
 	@Then("Admin should see {string}")
