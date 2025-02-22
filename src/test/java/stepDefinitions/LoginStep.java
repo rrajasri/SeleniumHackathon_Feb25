@@ -69,22 +69,17 @@ public class LoginStep {
 	public void admin_should_see_lms_learning_management_system() throws Exception {
 		
 		 List<String> extractedText = login.applicationText();
+		 System.out.println(extractedText);
 		 String expectedText = "LMS - Learning Management System";
-	      
-		 boolean found = false;
-	        for (String line : extractedText) {
+	        	for (String line : extractedText) {
+	        		
 	            if (line.contains(expectedText)) {
+	            	
 	                Assert.assertEquals(line, expectedText);
-	                found = true;
-	                break;
 	            }
-	        }
-
-	        // Fail the test if the expected text is not found
-	        if (!found) {
+	            
 	            Assert.fail("Expected text '" + expectedText + "' not found in extracted lines: " + extractedText);
-	        }
-
+	            }
 	}
 
 	@Then("Admin should see company name below the app name")
@@ -96,7 +91,7 @@ public class LoginStep {
             boolean found = false;
             for (String line : extractedText) {
                 if (line.contains(expectedText)) {
-                    Assert.assertEquals(line, expectedText);
+                        Assert.assertEquals(line, expectedText);
                     found = true;
                     break;
                 }
