@@ -1,150 +1,144 @@
 package stepDefinitions;
 
+import driverFactory.DriverFactory;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.WebDriver;
+import pageObjectRepository.BatchPage;
+import pageObjectRepository.HomePage;
+import pageObjectRepository.LoginPage;
+
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 public class BatchStep {
-	
-	
+
+	WebDriver driver = DriverFactory.getDriver();
+	LoginPage loginPage = new LoginPage(driver);
+	HomePage homePage = new HomePage(driver);
+	BatchPage batchPage = new BatchPage(driver);
+
 	@Given("Admin is on the home page")
 	public void admin_is_on_the_home_page() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		homePage.navigateToHomePage();
 	}
 
 	@When("Admin Clicks on the Batch menu from the header")
+	@Given("Admin is on batch page")
 	public void admin_clicks_on_the_batch_menu_from_the_header() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		homePage.navigateToHomePage();
+		batchPage.navigateToBatchPage();
 	}
 
 	@Then("Admin should be in the Manage Batch Page")
 	public void admin_should_be_in_the_manage_batch_page() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		assertTrue(batchPage.hasManageBatchLabel());
 	}
-
-
 
 	@Then("Admin should see the {string} Title")
-	public void admin_should_see_the_title(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	public void admin_should_see_the_title(String title) {
+	    assertTrue(batchPage.hasPageTitle(title));
 	}
 
-	@Then("Admin should see the {string} Heading")
-	public void admin_should_see_the_heading(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	@Then("Admin should see the Manage Batch heading")
+	public void admin_should_see_the_manage_batch_heading() {
+		assertTrue(batchPage.hasManageBatchLabel());
 	}
 
-	@Then("Admin should see the disabled {string} under the header")
-	public void admin_should_see_the_disabled_under_the_header(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	@Then("Admin should see the disabled Delete Icon under the header")
+	public void admin_should_see_the_disabled_delete_icon_under_the_header() {
+		assertTrue(batchPage.hasTopDeleteIconDisabled());
 	}
 
 	@Then("Admin should see the enabled pagination controls under the data table")
 	public void admin_should_see_the_enabled_pagination_controls_under_the_data_table() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	    assertTrue(batchPage.hasPage1Enabled());
 	}
 
 	@Then("Admin should see the edit icon in each row")
 	public void admin_should_see_the_edit_icon_in_each_row() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		int expectedCount = batchPage.tableRowsCount();
+		int actualCount = batchPage.editIconsCount();
+
+		assertEquals(expectedCount, actualCount);
 	}
 
 	@Then("Admin should see the delete icon in each row")
 	public void admin_should_see_the_delete_icon_in_each_row() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		int expectedCount = batchPage.tableRowsCount();
+		int actualCount = batchPage.deleteIconsCount();
+
+		assertEquals(expectedCount, actualCount);
 	}
 
 	@Then("Admin should see the checkbox in each row")
 	public void admin_should_see_the_checkbox_in_each_row() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		int expectedCount = batchPage.tableRowsCount();
+		int actualCount = batchPage.checkBoxesCount();
+
+		assertEquals(expectedCount, actualCount);
 	}
 
-	@Then("Admin should see the datatable headers Batch name, Batch Description,Batch Status, No Of classes, Program Name, Edit\\/Delete")
-	public void admin_should_see_the_datatable_headers_batch_name_batch_description_batch_status_no_of_classes_program_name_edit_delete() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	@Then("Admin should see the datatable header with {string}")
+	public void admin_should_see_the_datatable_header_with(String title) {
+		assertTrue(batchPage.hasHeader(title));
 	}
 
 	@Then("Admin should see the checkbox in the datatable header row")
 	public void admin_should_see_the_checkbox_in_the_datatable_header_row() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		assertTrue(batchPage.hasHeaderCheckBox());
 	}
 
 	@Then("Admin should see the sort icon next to all Datatable headers")
 	public void admin_should_see_the_sort_icon_next_to_all_datatable_headers() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		int expectedCount = batchPage.sortableColumnsCount();
+		int actualCount = batchPage.sortIconsCount();
+
+		assertEquals(expectedCount, actualCount);
 	}
 	
-	@Given("Admin is on batch page")
-	public void admin_is_on_batch_page() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
-	}
-
 	@When("Admin clicks {string} on the navigation bar")
-	public void admin_clicks_on_the_navigation_bar(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	public void admin_clicks_on_the_navigation_bar(String menuName) {
+		batchPage.openMenu(menuName);
 	}
 
 	@Then("Admin should see sub menu in menu bar as {string}")
-	public void admin_should_see_sub_menu_in_menu_bar_as(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	public void admin_should_see_sub_menu_in_menu_bar_as(String subMenuName) {
+		assertTrue(batchPage.hasSubMenu(subMenuName));
 	}
 
-	
-	@When("Admin clicks on {string} under the {string} menu bar")
-	public void admin_clicks_on_under_the_menu_bar(String string, String string2) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	@When("Admin clicks on {string} under the Batch menu bar")
+	@Given("Admin is on the Batch Details Pop Up Window by clicking sub menu {string}")
+	public void admin_clicks_on_under_the_menu_bar(String subMenuName) {
+		batchPage.openMenu("Batch");
+		batchPage.openSubMenu(subMenuName);
 	}
 
 	@Then("Admin should see the Batch Details pop up window")
 	public void admin_should_see_the_batch_details_pop_up_window() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
-	}
-	@Given("Admin is on the Batch Details Pop Up WIndow")
-	public void admin_is_on_the_batch_details_pop_up_w_indow() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		assertTrue(batchPage.isAddNewBatchPopupDisplaying());
 	}
 
-	@When("Admin checks all the fields are enabled")
-	public void admin_checks_all_the_fields_are_enabled() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	@When("Admin checks the field {string} is enabled")
+	public void admin_checks_all_the_fields_are_enabled(String fieldName) {
+		assertTrue(batchPage.isFieldEnabled(fieldName));
 	}
 
-	@Then("The pop up should include the fields Batch Name,Number of classes and Description as text box,Program Name as drop downStatus as radio button")
-	public void the_pop_up_should_include_the_fields_batch_name_number_of_classes_and_description_as_text_box_program_name_as_drop_down_status_as_radio_button() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	@Then("The pop up should include the field {string}")
+	public void the_pop_up_should_include_the_field(String fieldName) {
+		assertTrue(batchPage.isFieldAndTypeDisplayedAppropriately(fieldName));
 	}
 
-	@When("Admin selects program name present in the dropdown")
-	public void admin_selects_program_name_present_in_the_dropdown() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	@When("Admin selects program name {string} present in the dropdown")
+	public void admin_selects_program_name_present_in_the_dropdown(String programName) {
+		batchPage.selectProgramNameInBatchDetailsPopup(programName);
 	}
 
-	@Then("Admin should see selected program name in the batch name prefix box")
-	public void admin_should_see_selected_program_name_in_the_batch_name_prefix_box() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	@Then("Admin should see selected {string} in the batch name prefix box")
+	public void admin_should_see_selected_program_name_in_the_batch_name_prefix_box(String programName) {
+		assertEquals(programName, batchPage.getTextOnBatchNamePrefix());
 	}
 
 	@When("Admin enters alphabets in batch name suffix box")
@@ -422,6 +416,25 @@ public class BatchStep {
 	}
 
 
+	// For background, replace this later
+	@Given("User is on the login page")
+	public void user_is_on_the_login_page() {
+		loginPage.navigateToLoginPage();
+	}
 
+	@And("User enters valid credentials {string} and {string}")
+	public void user_enters_valid_credentials_and(String userName, String password) {
+		loginPage.enterCredentials(userName, password);
+	}
+
+	@And("User selects the Admin role")
+	public void user_selects_the_role() {
+		loginPage.selectAdminRole();
+	}
+
+	@And("User clicks on login")
+	public void user_clicks_on_login() {
+		loginPage.login();
+	}
 
 }
