@@ -118,13 +118,13 @@ public class LoginPage {
 	public List<String> applicationText() throws TesseractException, IOException {
 		List<String> linesList = new ArrayList<>();
 			try {		
-			 String tessDataPath = "C:\\Program Files\\Tesseract-OCR\\tessdata";
+			 String tessDataPath = "C:\\Users\\rakhy\\Selenium_Hackathon\\SeleniumHackathon_Feb25\\src\\test\\resources\\tessdata";
 	        
         // Path to the image file
         String path = "C:\\Users\\rakhy\\Selenium_Hackathon\\SeleniumHackathon_Feb25\\src\\test\\resources\\Testdataforpng\\LMS-logo.jpg";
         File imageFile = new File(path);
         if (!imageFile.exists()) {
-            throw new RuntimeException("Image file not found at: " + path);
+            throw new RuntimeException("Image file not found at: "+ path );
         }
 
         // Initialize Tesseract
