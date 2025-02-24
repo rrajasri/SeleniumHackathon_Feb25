@@ -1,9 +1,12 @@
 package stepDefinitions;
 
+import java.io.IOException;
+import java.time.Duration;
 import java.util.List;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.WebDriver;
-
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import driverFactory.DriverFactory;
@@ -11,6 +14,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pageObjectRepository.*;
+import utilitities.ExcelDataReader;
 
 public class ProgramDeleteStep {
 
@@ -18,6 +22,7 @@ public class ProgramDeleteStep {
 	ProgramPage ProgramPage = new ProgramPage(driver);
 	ProgramDeletePage ProgramDeletePage = new ProgramDeletePage(driver);
 	List<String> programnames;
+	
 
 	@When("Admin clicks on delete button for a program")
 	public void admin_clicks_on_delete_button_for_a_program() {
@@ -49,16 +54,22 @@ public class ProgramDeleteStep {
 		Assert.assertEquals(actualText, expectedText, "Text did not match!");
 	}
 
-	@When("Admin searches for {string}")
-	public void admin_searches_for_deleted_program(String deletedProgramName) {
-         
-		ProgramDeletePage.searchProgram(deletedProgramName);
+	@When("Admin searches for Deleted Program Name {string} and {int}")
+	public void admin_searches_for_deleted_program(String sheetName, int rowNumber) {
+		driver.navigate().refresh();
+		try {
+			ProgramDeletePage.searchWithDeletedProgramName(sheetName, rowNumber);
+		} catch (InvalidFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Then("There should be zero results")
-	public void there_should_be_zero_results()  {
-
-		int resultCount = ProgramDeletePage.getSearchResultsCount();
+	public void there_should_be_zero_results() throws InterruptedException {
+	   
+		int resultCount =(ProgramDeletePage.getSearchResultsCount());
 		System.out.println("resultCount is " + resultCount);
 		Assert.assertEquals(resultCount, 0, "Deleted program still appears in the search results!");
 	}
@@ -94,7 +105,7 @@ public class ProgramDeleteStep {
 
 	@Then("Programs get selected")
 	public void programs_get_selected() {
-		
+
 		List<String> selectedPrograms = ProgramDeletePage.getSelectedPrograms();
 		Assert.assertTrue(selectedPrograms.size() > 1);
 	}
@@ -122,7 +133,7 @@ public class ProgramDeleteStep {
 	}
 
 	@Then("Admin see message {string}")
-	public void Admin_clicks_yes_and_see_message(String expectedText)  {
+	public void Admin_clicks_yes_and_see_message(String expectedText) {
 		ProgramDeletePage.verifyYesButton();
 		String actualText = ProgramDeletePage.verifySuccessDeleteMessage();
 		System.out.println("actualText is " + actualText);
@@ -160,7 +171,7 @@ public class ProgramDeleteStep {
 	}
 
 	@Then("Admin see Programs are still selected and not deleted")
-	public void admin_clicks_no_and_see_programs_are_still_selected_and_not_deleted()  {
+	public void admin_clicks_no_and_see_programs_are_still_selected_and_not_deleted() {
 		ProgramDeletePage.clickNoButton();
 		for (String programName : programnames) {
 			ProgramDeletePage.searchProgram(programName);
@@ -169,6 +180,5 @@ public class ProgramDeleteStep {
 			Assert.assertTrue(resultCount > 0, "Program " + programName + " was deleted, but it should still exist!");
 		}
 	}
-	
 
 }

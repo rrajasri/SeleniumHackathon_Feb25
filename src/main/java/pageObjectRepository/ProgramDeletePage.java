@@ -1,9 +1,13 @@
 package pageObjectRepository;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,15 +16,19 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import utilitities.ExcelDataReader;
+
 public class ProgramDeletePage {
 
 	WebDriver driver;
 	Properties prop;
 	WebDriverWait wait;
+	ExcelDataReader exceldatareader;
+	
 
 	public ProgramDeletePage(WebDriver driver) {
 		this.driver = driver;
-		this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+		this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		PageFactory.initElements(driver, this);
 
 	}
@@ -74,13 +82,29 @@ public class ProgramDeletePage {
 
 	}
 
+	public void searchWithDeletedProgramName(String sheetName, int rowNumber)
+			throws IOException, InvalidFormatException {
+		exceldatareader = new ExcelDataReader();
+		List<Map<String, String>> excelData = ExcelDataReader.DataFromExcel(sheetName);
+		System.out.println("excelData is " + excelData);
+		String DeletedprogramName = excelData.get(rowNumber).get("DeletedprogramName");
+		System.out.println("partialname is " + DeletedprogramName);
+		wait.until(ExpectedConditions.visibilityOf(searchBox)).clear();
+		searchBox.sendKeys(DeletedprogramName);
+
+	}
+
 	public void searchProgram(String programName) {
 		wait.until(ExpectedConditions.visibilityOf(searchBox)).clear();
 		searchBox.sendKeys(programName);
 	}
 
 	public int getSearchResultsCount() {
+	  
 		wait.until(ExpectedConditions.visibilityOf(searchBox));
+		 // Custom wait using a lambda expression: keep checking until programRows.size() is 0
+		wait.until(driver -> programRows.size() == 0);
+		//wait.until(ExpectedConditions.visibilityOfAllElements(programRows));
 		return programRows.size();
 	}
 

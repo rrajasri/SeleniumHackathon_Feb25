@@ -1,10 +1,13 @@
 package pageObjectRepository;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
-
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -12,9 +15,12 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import utilitities.ExcelDataReader;
+
 public class ProgramAddNewPage {
 	WebDriver driver;
 	WebDriverWait wait;
+	ExcelDataReader exceldatareader;
 
 	public ProgramAddNewPage(WebDriver driver) {
 		this.driver = driver;
@@ -26,7 +32,7 @@ public class ProgramAddNewPage {
 	@FindBy(xpath = "//button[contains(text(),'Add New Program')]")
 	WebElement addnewprogram;
 	@FindBy(xpath = "//div[@role='dialog']")
-	WebElement newclasspopupbox;
+	WebElement newprogrampopupbox;
 	@FindBy(id = "pr_id_3-label")
 	WebElement popuptitle;
 	@FindBy(xpath = "//label[@for='programName']/span")
@@ -43,10 +49,11 @@ public class ProgramAddNewPage {
 	WebElement descriptionTextBox;
 	@FindBy(xpath = "//input[@id='Active']/ancestor::p-radiobutton")
 	private WebElement activeRadioButtonContainer;
-
 	@FindBy(xpath = "//input[@id='Inactive']/ancestor::p-radiobutton")
 	private WebElement inactiveRadioButtonContainer;
-	@FindBy(xpath = "//div[contains(@class,'p-toast-message-content') and contains(text(),'Successful Program created')]")
+	@FindBy(xpath = "//div[contains(@class,'p-toast-message')]")
+	// @FindBy(xpath = "//div[contains(@class,'p-toast-message-content') and
+	// contains(text(),'Successful Program created')]")
 	private WebElement successMessage;
 	@FindBy(xpath = "//input[@placeholder='Search...']")
 	private WebElement searchBox;
@@ -59,9 +66,28 @@ public class ProgramAddNewPage {
 		addnewprogram.click();
 	}
 
+	public String getTextOfAddNewProgram() {
+
+		wait.until(ExpectedConditions.visibilityOf(addnewprogram));
+
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript("var overlays = document.querySelectorAll('div.cdk-overlay-backdrop');"
+					+ "for(var i=0; i<overlays.length; i++) { overlays[i].parentNode.removeChild(overlays[i]); }");
+		} catch (Exception e) {
+			System.out.println("No overlay found or could not remove overlay: " + e.getMessage());
+		}
+
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		String text = (String) js.executeScript("return arguments[0].innerText;", addnewprogram);
+		return text;
+	}
+
+
+
 	public boolean newClassPopUpBox() {
 
-		return newclasspopupbox.isDisplayed();
+		return newprogrampopupbox.isDisplayed();
 	}
 
 	public String popUpTitle() {
@@ -148,23 +174,49 @@ public class ProgramAddNewPage {
 		searchBox.sendKeys(programName);
 	}
 
-	// Method to verify if the newly added program appears in the records
 	public boolean isProgramDisplayed(String ProgramName) {
 		wait.until(ExpectedConditions.visibilityOfAllElements(programNameList));
 
 		for (int i = 0; i < programNameList.size(); i++) {
 			String actualProgramName = programNameList.get(i).getText().trim();
 			System.out.println("actualProgramName is" + actualProgramName);
-			// String actualDescription = programDescriptionList.get(i).getText().trim();
 
 			if (actualProgramName.equals(ProgramName)) {
-				return true; // Program is found and matches expected data
+				return true;
 			}
 		}
-		return false; // Program not found in the search results
+		return false;
 	}
 
 	public void verifyXButton() {
 		x.click();
+	}
+
+	public void enterName(String name) {
+		nameTextBox.clear();
+		nameTextBox.sendKeys(name);
+	}
+
+	public void enterDescription(String description) {
+		descriptionTextBox.clear();
+		descriptionTextBox.sendKeys(description);
+	}
+
+	public String getNameText() {
+		return nameTextBox.getAttribute("value");
+	}
+
+	public String getDescriptionText() {
+		return descriptionTextBox.getAttribute("value");
+	}
+
+	public String getSuccessMessage() {
+		
+		 wait.until(ExpectedConditions.visibilityOf(successMessage));
+		 return successMessage.getText().trim().replaceAll("\\s+", " ");
+	}
+
+	public void clickActiveRadioButton() {
+		activeRadioButtonContainer.click();
 	}
 }

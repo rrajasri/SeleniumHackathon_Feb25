@@ -16,10 +16,13 @@ Given Admin is on home page after Login
     Then Admin can see message 'Successful Program Deleted' 
     
     @delete3
-    Scenario: Verify Admin is able to deleted program
+    Scenario Outline: Verify Admin is able to deleted program
     Given Admin is on Program page
-    When Admin searches for "crossbrowsing"
+    When Admin searches for Deleted Program Name "<Sheetname>" and <RowNumber> 
     Then There should be zero results
+     Examples:
+    | Sheetname    | RowNumber |
+    | program      |  1        |
     
     @delete4   
     Scenario: Verify Admin is able to click 'No'
@@ -45,14 +48,14 @@ Given Admin is on home page after Login
     When Admin clicks on the delete button on the left top of the program page
     Then Admin lands on Confirmation form 
     
-    @delete8 @realbug
+    @delete8 
     Scenario: Verify Admin is able to click 'Yes'
     Given Admin is on Program page
     When Admin clicks on the delete button on the left top of the program page
     When Admin clicks on Yes button
     Then Admin see message 'Successful Programs Deleted' 
     
-    @delete9 @realbug(samebuttestcasedifferent)
+    @delete9 @bug
     Scenario: Verify Admin is able to deleted program
     Given Admin is on Program page
     When Admin deletes the Programs Names

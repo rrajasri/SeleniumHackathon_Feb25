@@ -36,13 +36,13 @@ public class Hooks {
 		driver.get(prop.getProperty("URL"));
 	}
 
-	@After(order = 0)
-	public void quitBrowser() {
-		if (DriverFactory.getDriver() != null) {
-			DriverFactory.getDriver().quit();
-			DriverFactory.removeDriver();
-		}
-	}
+//	@After(order = 0)
+//	public void quitBrowser() {
+//		if (DriverFactory.getDriver() != null) {
+//			DriverFactory.getDriver().quit();
+//			DriverFactory.removeDriver();
+//		}
+//	}
 
 	@After(order = 1)
 	public void tearDown(Scenario scenario) {

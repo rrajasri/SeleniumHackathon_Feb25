@@ -8,12 +8,17 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pageObjectRepository.*;
+import com.github.javafaker.Faker;
 
 public class ProgramAddNewStep {
 	WebDriver driver = DriverFactory.getDriver();
 	ProgramPage ProgramPage = new ProgramPage(driver);
 	ProgramAddNewPage ProgramAddNewPage = new ProgramAddNewPage(driver);
-	 
+	private Faker faker = new Faker();
+
+	// Variables to store the generated values
+	private String generatedName;
+	private String generatedDescription;
 
 	@Given("Admin is on Program page")
 	public void admin_is_on_program_page() {
@@ -31,10 +36,17 @@ public class ProgramAddNewStep {
 
 	}
 
+	@Then("Admin should see program sub menu in menu bar as {string}")
+	public void Admin_should_see_program_sub_menu(String expectedtext) {
+		
+		String actualtext = ProgramAddNewPage.getTextOfAddNewProgram();
+		Assert.assertEquals(actualtext, expectedtext, "text did not matched");
+	}
+
 	@Then("Admin should see window title as {string}")
 	public void admin_should_see_window_title_as_program_details(String expectedtext) {
 		String actualtext = ProgramAddNewPage.popUpTitle();
-		Assert.assertEquals(actualtext, expectedtext,"Text did not match");
+		Assert.assertEquals(actualtext, expectedtext, "Text did not match");
 	}
 
 	@Then("Admin should see red asterisk mark beside mandatory field Name")
@@ -94,41 +106,69 @@ public class ProgramAddNewStep {
 
 		Assert.assertEquals(actualStatus, expectedStatus, "status does not match");
 	}
-	
-//	    @When("Admin creates a new program with {string}, {string}, and {string}")
-//	    public void admin_creates_a_new_program(String programName, String description, String status) {
-//	    	 //Storing values for later use
-//	    	 createdProgramName = programName;
-//	         createdProgramDescription = description;
-//	         createdProgramStatus = status;
-//	         ProgramAddNewPage.addNewProgram();
-//	    	ProgramAddNewPage.enterProgramName(programName);
-//	    	System.out.println("programName is" + programName);
-//	    	ProgramAddNewPage.enterDescription(description);
-//	    	System.out.println("description is" + description);
-//	    	ProgramAddNewPage.selectProgramStatus(status);
-//	    	System.out.println("status is" + status);
-//	    	ProgramAddNewPage.popUpSaveButton();
-//	    }
 
-	    @When("Admin searches with newly created {string}")
-	    public void admin_searches_with_newly_created_program(String programName) {
 
-	    	ProgramAddNewPage.searchProgram(programName);
-	    	
-	    	
-	    }
+	@When("Admin searches with newly created {string}")
+	public void admin_searches_with_newly_created_program(String programName) {
 
-	    @Then("Records of the newly created {string} is displayed and match the data entered")
-	    public void records_of_newly_created_program_is_displayed(String ProgramName) {
-	        Assert.assertTrue( ProgramAddNewPage.isProgramDisplayed(ProgramName));
-	        		
-	    }
-	    @When("Admin Click on X button")
-	    public void admin_click_on_button() {
-	    	ProgramAddNewPage.verifyXButton();
-	    }
+		ProgramAddNewPage.searchProgram(programName);
+
 	}
 
+	@Then("Records of the newly created {string} is displayed and match the data entered")
+	public void records_of_newly_created_program_is_displayed(String ProgramName) {
+		Assert.assertTrue(ProgramAddNewPage.isProgramDisplayed(ProgramName));
 
+	}
 
+	@When("Admin Click on X button")
+	public void admin_click_on_button() {
+		ProgramAddNewPage.verifyXButton();
+	}
+
+	@When("Admin enters the Name in the text box")
+	public void admin_enters_the_name_in_the_text_box() {
+
+		generatedName = faker.name().firstName();
+		ProgramAddNewPage.enterName(generatedName);
+
+	}
+
+	@Then("Admin can see the entered text in Name box")
+	public void admin_can_see_the_entered_text_in_name_box() {
+
+		String actualName = ProgramAddNewPage.getNameText();
+		Assert.assertEquals(actualName, generatedName, "The displayed name does not match the entered value.");
+	}
+
+	@When("Admin enters the description in the text box")
+	public void admin_enters_the_description_in_the_text_box() {
+
+		generatedDescription = faker.lorem().sentence();
+		ProgramAddNewPage.enterDescription(generatedDescription);
+	}
+
+	@Then("Admin can see the entered text in description box")
+	public void admin_can_see_the_entered_text_in_description_box() {
+
+		String actualDescription = ProgramAddNewPage.getDescriptionText();
+		Assert.assertEquals(actualDescription, generatedDescription,
+				"The displayed description does not match the entered value.");
+	}
+	@When("Admin enter valid details for mandatory fields and Click on save button")
+	public void admin_enter_valid_details_for_mandatory_fields_and_click_on_save_button() {
+		generatedName = faker.name().firstName();
+		ProgramAddNewPage.enterName(generatedName);
+		generatedDescription = faker.lorem().sentence();
+		ProgramAddNewPage.enterDescription(generatedDescription);
+		ProgramAddNewPage.clickActiveRadioButton();
+		ProgramAddNewPage.popUpSaveButton();
+	}
+	@Then("Admin gets message {string}")
+	public void admin_gets_message(String expectedtext) throws InterruptedException {
+		
+		String actualmessage= ProgramAddNewPage.getSuccessMessage();
+		Assert.assertEquals(actualmessage, expectedtext, "Text did not matched");
+	    
+	}
+}
