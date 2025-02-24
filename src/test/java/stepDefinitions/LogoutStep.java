@@ -14,14 +14,6 @@ public class LogoutStep {
 	LogoutPage logout = new LogoutPage(DriverFactory.getDriver());
 	LoginPage loginpage = new LoginPage(DriverFactory.getDriver());
 
-	@Given("Admin is logged into the application")
-	public void admin_is_logged_into_the_application() {
-		
-		logout.login();
-		loginpage.selectrole();
-		loginpage.clicklogin();
-	  
-	}
 
 	@Given("Admin is in home page")
 	public void admin_is_in_home_page() {

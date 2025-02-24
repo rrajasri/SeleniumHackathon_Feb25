@@ -1,7 +1,7 @@
 Feature: Logout functionality
 
-Background:
-Given Admin is logged into the application
+Background: Verify that Admin is able to navigate to Program page
+ Given Admin is on home page after Login
 
     Scenario: Verify logout function
     Given Admin is in home page

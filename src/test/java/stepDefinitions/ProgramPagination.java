@@ -2,8 +2,6 @@ package stepDefinitions;
 
 import org.testng.Assert;
 
-import com.aventstack.chaintest.plugins.ChainTestCucumberListener;
-
 import driverFactory.DriverFactory;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -17,15 +15,16 @@ public class ProgramPagination {
 	ProgramPaginationPage pagination = new ProgramPaginationPage(DriverFactory.getDriver());
 	LogoutPage logout = new LogoutPage(DriverFactory.getDriver());
 	LoginPage loginpage = new LoginPage(DriverFactory.getDriver());
+	private int rowcount;
 			
-	@Given("Admin is logged into application")
-	public void admin_is_logged_into_application() {
-		
-		logout.login();
-		loginpage.selectrole();
-		loginpage.clicklogin();
-	  
-	}
+//	@Given("Admin is logged into application")
+//	public void admin_is_logged_into_application() {
+//		
+//		logout.login();
+//		loginpage.selectrole();
+//		loginpage.clicklogin();
+//	  
+//	}
 
 	@When("Admin click program button")
 	public void admin_click_program_button() throws InterruptedException {
@@ -34,22 +33,15 @@ public class ProgramPagination {
 		
 	}
 
-	@Then("Admin redirected to progam page")
-	public void admin_redirected_to_progam_page() {
-		
-		String title = loginpage.getpagetitle();
-		Assert.assertEquals(title,"LMS");
-	    
-	}
-
-	@Given("Admin is on Program page")
-	public void admin_is_on_program_page() {
-		
-
-		String title = loginpage.getpagetitle();
-		Assert.assertEquals(title,"LMS");
-	   
-	}
+//
+//	@Given("Admin is on Program page")
+//	public void admin_is_on_program_page() {
+//		
+//
+//		String title = loginpage.getpagetitle();
+//		Assert.assertEquals(title,"LMS");
+//	   
+//	}
 
 	@When("Admin clicks Next page link on the program table")
 	public void admin_clicks_next_page_link_on_the_program_table() {
@@ -61,8 +53,9 @@ public class ProgramPagination {
 	@Then("Admin should see the Pagination has Next active link")
 	public void admin_should_see_the_pagination_has_next_active_link() {
 	    
-	boolean isenable =	pagination.Nextisactive();
-	Assert.assertTrue(isenable);
+		
+		String isenable =	pagination.Nextisactive();
+		Assert.assertEquals(isenable, "true");
 	}
 
 	@When("Admin clicks Last page link")
@@ -75,8 +68,8 @@ public class ProgramPagination {
 	@Then("Admin should see the last page record on the table with Next page link are disabled")
 	public void admin_should_see_the_last_page_record_on_the_table_with_next_page_link_are_disabled() {
 		
-	boolean isdisble =	pagination.disableNextcheck();
-	Assert.assertFalse(isdisble);
+		String isdisble =	pagination.disableNextcheck();
+		Assert.assertEquals(isdisble, "true");
 	    
 	}
 
@@ -84,7 +77,7 @@ public class ProgramPagination {
 	public void admin_is_on_last_page_of_program_page_table() {
 		
 		pagination.goToLastPageUsingNextButton();
-	    
+			    
 	}
 
 	@When("Admin clicks Previous page link")
@@ -98,7 +91,10 @@ public class ProgramPagination {
 	public void admin_should_see_the_previous_page_record_on_the_table_with_pagination_has_previous_page_link() {
 		
 		int pagenumber = pagination.getCurrentPageNumber(10);
-		Assert.assertTrue(pagenumber < pagination.getTotalPages(10));
+		System.out.println(pagenumber);
+		int previouspage = pagination.getTotalPages(10);
+		System.out.println(previouspage);
+		Assert.assertTrue(pagenumber == previouspage-1);
 	    
 	}
 
@@ -119,31 +115,42 @@ public class ProgramPagination {
 	@Then("Admin should see the very first page record on the table with Previous page link are disabled")
 	public void admin_should_see_the_very_first_page_record_on_the_table_with_previous_page_link_are_disabled() {
 		
-		boolean isenable = pagination.checkPreviousbutton();
-		Assert.assertFalse(isenable);
+		String isenable = pagination.checkPreviousbutton();
+		System.out.println(isenable);
+		Assert.assertEquals(isenable ,"true");
 	   
 	}
 
-//	@Given("Admin is on home page after Login")
-//	public void admin_is_on_home_page_after_login() {
-//	    
-//	}
-//
-//	@When("Admin clicks {string} on the navigation bar")
-//	public void admin_clicks_on_the_navigation_bar(String string) {
-//	   
-//	}
-//
-//	@Then("Admin should not see any pagination icons and message {string}")
-//	public void admin_should_not_see_any_pagination_icons_and_message(String string) {
-//	    
-//	}
-//
-//	@Then("Admin should see pagination icons disabled")
-//	public void admin_should_see_pagination_icons_disabled() {
-//	   
-//	}
 
+	@Then("Admin should not see any pagination icons and message {string}")
+	public void admin_should_not_see_any_pagination_icons_and_message(String Expectedtext) {
+		
+		if (rowcount == 0) {
+			System.out.println(rowcount);
+		String isdisable =	pagination.disableNextcheck();
+		    Assert.assertEquals(isdisable , true);
+			Assert.assertTrue(false , Expectedtext);	
+		}else
+			
+			Assert.fail("Test failed because rows exist when they shouldn't.");
+	
+		
+		
+	}
+	@Then("Admin should see pagination icons disabled")
+	public void admin_should_see_pagination_icons_disabled() {
+	    
+		//rowcount = pagination.getRows();
+		if(rowcount < 5) {
+			String isdisable =	pagination.disableNextcheck();
+		    Assert.assertEquals(isdisable , "true");
+		    isdisable =pagination.Nextisactive();
+		    Assert.assertEquals(isdisable , "true");
+		    
+		}
+		
+		Assert.fail("Test failed because rows count is > 5");
+	}
 
 
 }
