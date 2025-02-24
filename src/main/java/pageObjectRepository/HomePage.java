@@ -23,7 +23,7 @@ public class HomePage  {
   private WebElement alltextAlighnment;
   
   
-  
+  //sadhna
 
   
   @FindBy(xpath="//app-doughnutchart")
