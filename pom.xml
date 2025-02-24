@@ -5,6 +5,10 @@
 	<groupId>Team5_BugDetectors</groupId>
 	<artifactId>Team5_BugDetectors</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<properties>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+	</properties>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-testng -->
 		<dependency>
@@ -32,6 +36,23 @@
 			<version>7.10.2</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- Add your dependencies here -->
+		<dependency>
+			<groupId>net.sourceforge.tess4j</groupId>
+			<artifactId>tess4j</artifactId>
+			<version>5.8.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator 
+<dependency>
+    <groupId>net.coobird</groupId>
+    <artifactId>thumbnailator</artifactId>
+    <version>0.4.20</version>
+</dependency-->
+		<dependency>
+			<groupId>com.github.javafaker</groupId>
+			<artifactId>javafaker</artifactId>
+			<version>1.0.2</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
 		<dependency>
@@ -46,11 +67,17 @@
 			<version>2.29.1</version>
 		</dependency>
 		<!--
-		https://mvnrepository.com/artifact/tech.grasshopper/extentreports-cucumber7-adapter -->
+		https://mvnrepository.com/artifact/tech.grasshopper/extentreports-cucumber7-adapter 
 		<dependency>
 			<groupId>tech.grasshopper</groupId>
 			<artifactId>extentreports-cucumber7-adapter</artifactId>
 			<version>1.14.0</version>
+		</dependency>-->
+		<dependency>
+			<groupId>com.aventstack</groupId>
+			<artifactId>chaintest-cucumber-jvm</artifactId>
+			<version>1.0.10</version>
+			<scope>provided</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-testng -->
 		<dependency>
@@ -77,6 +104,13 @@
 			<artifactId>poi</artifactId>
 			<version>5.3.0</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.18.0</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<pluginManagement><!-- lock down plugins versions to avoid using Maven
@@ -99,20 +133,18 @@
 					<version>3.13.0</version>
 				</plugin>
 				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>3.3.0</version>
 					<configuration>
+						<argLine>-Xmx1024m -Xms512m</argLine>
 						<suiteXmlFiles>
-
 							<suiteXmlFile>testng.xml</suiteXmlFile>
 						</suiteXmlFiles>
-
-
 						<parallel>
 							methods
 						</parallel>
 						<useUnlimitedThreads>true</useUnlimitedThreads>
-
 					</configuration>
 				</plugin>
 				<plugin>
