@@ -1,6 +1,9 @@
 Feature: Batch functionality
 Background: Admin is on the home page after Login
-
+    Given User is on the login page
+    And User enters valid credentials "sdetnumpyninja@gmail.com" and "Feb@2025"
+    And User selects the Admin role
+    And User clicks on login
 
     Scenario: Verify Admin Navigate to Batch page successfully
     Given Admin is on the home page
@@ -10,17 +13,17 @@ Background: Admin is on the home page after Login
     Scenario: Validate "Title" in Batch Page
     Given Admin is on the home page
     When Admin Clicks on the Batch menu from the header
-    Then Admin should see the "LMS-Learning Management System" Title
+    Then Admin should see the " LMS - Learning Management System " Title
 
     Scenario: Validate "heading" in the Batch Page
     Given Admin is on the home page
     When Admin Clicks on the Batch menu from the header
-    Then Admin should see the "Manage Batch" Heading
+    Then Admin should see the Manage Batch heading
 
     Scenario: Validate disabled "Delete Icon" under the header in the Batch Page
     Given Admin is on the home page
     When Admin Clicks on the Batch menu from the header
-    Then Admin should see the disabled "Delete Icon" under the header
+    Then Admin should see the disabled Delete Icon under the header
 
     Scenario: Validate pagination in the Batch Page
     Given Admin is on the home page
@@ -42,10 +45,18 @@ Background: Admin is on the home page after Login
     When Admin Clicks on the Batch menu from the header
     Then Admin should see the checkbox in each row
 
-    Scenario: Validate Datatable headers
+    Scenario Outline: Validate Datatable headers
     Given Admin is on the home page
     When Admin Clicks on the Batch menu from the header
-    Then Admin should see the datatable headers Batch name, Batch Description,Batch Status, No Of classes, Program Name, Edit/Delete
+    Then Admin should see the datatable header with "<title>"
+        Examples:
+            |title|
+            |Batch Name|
+            |Batch Description|
+            |Batch Status|
+            |No Of Classes|
+            |Program Name|
+            |Edit / Delete|
 
     Scenario: Validate "Checkbox" in the Datatable header row
     Given Admin is on the home page
@@ -56,5 +67,3 @@ Background: Admin is on the home page after Login
     Given Admin is on the home page
     When Admin Clicks on the Batch menu from the header
     Then Admin should see the sort icon next to all Datatable headers
-
- 
