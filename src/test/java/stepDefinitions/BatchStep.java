@@ -5,13 +5,17 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import pageObjectRepository.BatchPage;
 import pageObjectRepository.HomePage;
 import pageObjectRepository.LoginPage;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
+import java.util.List;
+
+import static org.testng.AssertJUnit.*;
 
 public class BatchStep {
 
@@ -26,7 +30,7 @@ public class BatchStep {
 	}
 
 	@When("Admin Clicks on the Batch menu from the header")
-	@Given("Admin is on batch page")
+	@Given("Admin is on the batch page")
 	public void admin_clicks_on_the_batch_menu_from_the_header() {
 		homePage.navigateToHomePage();
 		batchPage.navigateToBatchPage();
@@ -114,11 +118,11 @@ public class BatchStep {
 	public void admin_clicks_on_under_the_menu_bar(String subMenuName) {
 		batchPage.openMenu("Batch");
 		batchPage.openSubMenu(subMenuName);
-	}
+    }
 
 	@Then("Admin should see the Batch Details pop up window")
 	public void admin_should_see_the_batch_details_pop_up_window() {
-		assertTrue(batchPage.isAddNewBatchPopupDisplaying());
+		assertTrue(batchPage.isAddNewEditBatchPopupDisplaying());
 	}
 
 	@When("Admin checks the field {string} is enabled")
@@ -131,106 +135,131 @@ public class BatchStep {
 		assertTrue(batchPage.isFieldAndTypeDisplayedAppropriately(fieldName));
 	}
 
-	@When("Admin selects program name {string} present in the dropdown")
-	public void admin_selects_program_name_present_in_the_dropdown(String programName) {
-		batchPage.selectProgramNameInBatchDetailsPopup(programName);
+	@When("Admin selects program name index {int} present in the dropdown")
+	public void admin_selects_program_name_present_in_the_dropdown(Integer programNameIndex) {
+		batchPage.selectProgramNameInBatchDetailsPopup(programNameIndex);
 	}
 
-	@Then("Admin should see selected {string} in the batch name prefix box")
-	public void admin_should_see_selected_program_name_in_the_batch_name_prefix_box(String programName) {
-		assertEquals(programName, batchPage.getTextOnBatchNamePrefix());
+	@Then("Admin should see selected program name index {int} in the batch name prefix box")
+	public void admin_should_see_selected_program_name_in_the_batch_name_prefix_box(Integer programNameIndex) {
+		String expectedProgramName = batchPage.getProgramNameByIndex(programNameIndex);
+		assertEquals(expectedProgramName, batchPage.getTextOnBatchNamePrefix());
 	}
 
 	@When("Admin enters alphabets in batch name suffix box")
 	public void admin_enters_alphabets_in_batch_name_suffix_box() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	    batchPage.setBatchNameSuffix("abc");
 	}
 
 	@Then("Admin should get error message below the text box of respective field")
 	public void admin_should_get_error_message_below_the_text_box_of_respective_field() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		String expectedMsg = "This field accept only numbers and max 5 count.";
+		String actualMsg = batchPage.getInputErrorMsg();
+
+		assertEquals(expectedMsg, actualMsg);
 	}
 
 	@When("Admin enters alphabets in batch name prefix box")
 	public void admin_enters_alphabets_in_batch_name_prefix_box() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	    batchPage.setBatchNamePrefix("abc");
 	}
 
 	@Then("Admin should see empty text box")
 	public void admin_should_see_empty_text_box() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	    String actual = batchPage.getTextOnBatchNamePrefix();
+		String expected = "";
+
+		assertEquals(expected, actual);
 	}
 
-	@When("Admin enters the data only to the mandatory fields and clicks save button")
-	public void admin_enters_the_data_only_to_the_mandatory_fields_and_clicks_save_button() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	@When("Admin enters the data only to the mandatory fields program index: {int} suffix: {string} description: {string} active: {string} noOfClasses: {int} and clicks save button")
+	public void admin_enters_the_data_only_to_the_mandatory_fields_and_clicks_save_button(Integer programNameIndex, String batchSuffix, String description, String isActive, Integer noOfClasses) {
+	    batchPage.provideMandatoryNewBatchInputs(programNameIndex, batchSuffix, description, isActive, noOfClasses);
+		batchPage.clickOnSave();
+		batchPage.waitForToastToDisappear();
 	}
 
 	@Then("Admin should get a successful message")
 	public void admin_should_get_a_successful_message() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		assertTrue(batchPage.checkIfBatchCreatedSuccessToastDisplayed());
 	}
 
 	@When("Admin leaves blank one of the mandatory fields")
 	public void admin_leaves_blank_one_of_the_mandatory_fields() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		batchPage.provideMandatoryNewBatchInputs(1, "", "test", "TRUE", 1);
+		batchPage.clickOnSave();
 	}
 
 	@Then("Admin should get a error message on the respective mandatory field")
 	public void admin_should_get_a_error_message_on_the_respective_mandatory_field() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		String expectedMsg = "Batch Name is required.";
+		String actualMsg = batchPage.getInputErrorMsg();
+
+		assertEquals(expectedMsg, actualMsg);
 	}
 
 	@When("Admin enters the valid data to all the mandatory fields and click save button")
 	public void admin_enters_the_valid_data_to_all_the_mandatory_fields_and_click_save_button() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		batchPage.provideMandatoryEditBatchInputs("test edit", "TRUE", 5);
+		batchPage.clickOnSave();
+	}
+
+	@When("Admin enters the valid data to all the mandatory edit fields and click cancel button")
+	public void admin_enters_the_valid_data_to_all_the_mandatory_edit_fields_and_click_cancel_button() {
+		batchPage.provideMandatoryEditBatchInputs("test edit", "TRUE", 5);
+		batchPage.clickOnCancel();
 	}
 
 	@When("Admin enters the valid data to all the mandatory fields and click cancel button")
 	public void admin_enters_the_valid_data_to_all_the_mandatory_fields_and_click_cancel_button() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		batchPage.provideMandatoryNewBatchInputs(1, "000", "test", "TRUE", 1);
+		batchPage.clickOnCancel();
 	}
 
 	@Then("Admin can see the batch details popup closes without creating any batch")
 	public void admin_can_see_the_batch_details_popup_closes_without_creating_any_batch() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		try {
+			batchPage.checkIfBatchCreatedSuccessToastDisplayed();
+		}
+		catch (NoSuchElementException ex) {
+			assertTrue(true);
+			return;
+		}
+
+		fail("Toast message should not be displayed");
 	}
 
 	@When("Admin clicks on the close icon")
-	public void admin_clicks_on_the_close_icon() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	public void admin_clicks_on_the_close_icon() throws InterruptedException {
+	    batchPage.clickOnClose();
 	}
 
 	@Then("batch details pop up closes")
 	public void batch_details_pop_up_closes() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		try {
+			batchPage.isAddNewEditBatchPopupDisplaying();
+		}
+		catch (NoSuchElementException ex)
+		{
+			assertTrue(true);
+			return;
+        }
+
+        fail("Add new batch popup should be closed");
 	}
 
 
 
 	@When("Admin clicks the delete Icon on any row")
 	public void admin_clicks_the_delete_icon_on_any_row() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	    batchPage.deleteABatchByIndex(1);
 	}
 
 	@Then("Admin should see the confirm alert box with yes and no button")
 	public void admin_should_see_the_confirm_alert_box_with_yes_and_no_button() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+        assertTrue(batchPage.isDeleteConfirmationDialogDisplayed());
+	    assertTrue(batchPage.doesConfirmationDialogHasYesButton());
+	    assertTrue(batchPage.doesConfirmationDialogHasNoButton());
 	}
 
 	@Given("Admin is on the batch confirm popup page")
@@ -241,97 +270,93 @@ public class BatchStep {
 
 	@When("Admin clicks on the delete icon and click yes button")
 	public void admin_clicks_on_the_delete_icon_and_click_yes_button() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		batchPage.deleteABatchByIndex(1);
+		batchPage.confirmDeletion();
 	}
 
 	@Then("Admin should see the successful message and the batch should be deleted")
 	public void admin_should_see_the_successful_message_and_the_batch_should_be_deleted() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+        assertTrue(batchPage.checkIfBatchDeleteSuccessToastIsDisplayed());
 	}
 
 	@When("Admin clicks on the delete icon and click no button")
 	public void admin_clicks_on_the_delete_icon_and_click_no_button() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		batchPage.deleteABatchByIndex(1);
+		batchPage.declineDeletion();
 	}
 
 	@Then("Admin should see the alert box closed and the batch is not deleted")
-	public void admin_should_see_the_alert_box_closed_and_the_batch_is_not_deleted() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
-	}
-
-
 	@Then("Admin should see the alert box closed")
-	public void admin_should_see_the_alert_box_closed() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
-	}
+	public void admin_should_see_the_alert_box_closed_and_the_batch_is_not_deleted() {
+		try {
+			batchPage.isDeleteConfirmationDialogDisplayed();
+		}
+		catch (NoSuchElementException ex) {
+			assertTrue(true);
+			return;
+		}
 
+		fail("The confirmation dialog should close");
+	}
 
 	@When("Admin clicks the edit icon")
 	public void admin_clicks_the_edit_icon() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		batchPage.editABatchByIndex(1);
 	}
 
 
 	@Then("Admin should see Program name value field is disabled for editing")
 	public void admin_should_see_program_name_value_field_is_disabled_for_editing() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	    assertFalse(batchPage.isFieldEnabled("Program Name"));
 	}
 
 	@Then("Admin should see batch name value field is disabled for editing")
 	public void admin_should_see_batch_name_value_field_is_disabled_for_editing() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		assertFalse(batchPage.isFieldEnabled("Batch Name"));
 	}
 
 	@Given("Admin is on the Batch Details Page")
 	public void admin_is_on_the_batch_details_page() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		admin_clicks_on_the_batch_menu_from_the_header();
+		admin_clicks_the_edit_icon();
 	}
 
 	@When("Admin Updates any fields with invalid data and click save button")
 	public void admin_updates_any_fields_with_invalid_data_and_click_save_button() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		batchPage.setDescriptionTextOnAddEditPopup("a");
+		batchPage.clickOnSave();
 	}
 
 	@Then("Admin should get a error message under the respective field")
 	public void admin_should_get_a_error_message_under_the_respective_field() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
-	}
+		String expectedMsg = "This field should start with an alphabet and min 2 character.";
+		String actualMsg = batchPage.getInputErrorMsg();
 
-	
+		assertEquals(expectedMsg, actualMsg);
+	}
 
 	@Then("Admin should get a successful message for editing the batch")
 	public void admin_should_get_a_successful_message_for_editing_the_batch() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		assertTrue(batchPage.checkIfBatchUpdatedSuccessToastDisplayed());
 	}
 
 	
 	@Then("Admin can see the batch details popup closes without editing the batch")
 	public void admin_can_see_the_batch_details_popup_closes_without_editing_the_batch() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
-	}
-	@Given("Admin is on the batch page")
-	public void admin_is_on_the_batch_page() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		try {
+			batchPage.checkIfBatchUpdatedSuccessToastDisplayed();
+		}
+		catch (NoSuchElementException ex) {
+			assertTrue(true);
+			return;
+		}
+
+		fail("Toast message should not be displayed");
 	}
 
 	@When("Admin clicks on the logout button")
 	public void admin_clicks_on_the_logout_button() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+
 	}
 
 	@Then("Admin should see the Login screen Page")
@@ -343,8 +368,8 @@ public class BatchStep {
 	
 	@When("Admin clicks on the delete icon under the Manage batch header")
 	public void admin_clicks_on_the_delete_icon_under_the_manage_batch_header() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+        batchPage.clickOnDelete();
+		batchPage.confirmDeletion();
 	}
 
 	@Then("The respective row in the table should be deleted")
@@ -356,65 +381,50 @@ public class BatchStep {
 	
 	@When("Admin clicks next page link on the data table")
 	public void admin_clicks_next_page_link_on_the_data_table() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		batchPage.clickOnNextPageOnPagination();
 	}
 
-	@Then("Admin should see the Next enabled link")
-	public void admin_should_see_the_next_enabled_link() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	@Then("Admin should see the Next page")
+	public void admin_should_see_the_next_page() {
+		assertTrue(batchPage.isOnPage2());
 	}
 
 	@When("Admin clicks last page link on the data table")
 	public void admin_clicks_last_page_link_on_the_data_table() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		batchPage.clickOnLastPageOnPagination();
 	}
 
 	@Then("Admin should see the last page link with next page link disabled on the table")
 	public void admin_should_see_the_last_page_link_with_next_page_link_disabled_on_the_table() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		assertFalse(batchPage.isNextPageEnabled());
 	}
 
 	@When("Admin clicks previous page link on the data table")
 	public void admin_clicks_previous_page_link_on_the_data_table() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		batchPage.clickOnPreviousPageOnPagination();
 	}
 
 	@Then("Admin should see the previous page on the table")
+	@Then("Admin should see the very first page on the data table")
 	public void admin_should_see_the_previous_page_on_the_table() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		assertTrue(batchPage.isOnPage1());
 	}
 
 	@When("Admin clicks first page link on the data table")
 	public void admin_clicks_first_page_link_on_the_data_table() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		batchPage.clickOnFirstPageOnPagination();
 	}
 
-	@Then("Admin should see the very first page on the data table")
-	public void admin_should_see_the_very_first_page_on_the_data_table() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	@When("Admin enters the batch name {string} in the search text box")
+	public void admin_enters_the_batch_name_in_the_search_text_box(String searchText) {
+		batchPage.enterSearchText(searchText);
 	}
 
-
-	@When("Admin enters the batch name in the search text box")
-	public void admin_enters_the_batch_name_in_the_search_text_box() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	@Then("Admin should see the filtered batches containing {string} in the data table")
+	public void admin_should_see_the_filtered_batches_in_the_data_table(String searchText) {
+		int count = batchPage.getMatchingRowsCount(searchText);
+		assertTrue(count > 0);
 	}
-
-	@Then("Admin should see the filtered batches in the data table")
-	public void admin_should_see_the_filtered_batches_in_the_data_table() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
-	}
-
 
 	// For background, replace this later
 	@Given("User is on the login page")
@@ -437,4 +447,21 @@ public class BatchStep {
 		loginPage.login();
 	}
 
+	@When("Admin clicks on the delete icon and click on close icon")
+	public void admin_clicks_on_the_delete_icon_and_click_on_close_icon() {
+		batchPage.deleteABatchByIndex(1);
+		batchPage.closeDeletion();
+	}
+
+	@When("Admin selects a batch with description {string}")
+	public void admin_selects_a_batch_with_description(String description) {
+		batchPage.selectABatchByDescription(description);
+    }
+
+	@Then("The respective row with description {string} and batch suffix {string} in the table should be deleted")
+	public void the_respective_row_with_description_in_the_table_should_be_deleted(String description, String suffix) {
+		batchPage.enterSearchText(suffix);
+		int batchCount = batchPage.getCountOfBatchesMatchingByDescription(description);
+		assertEquals(0, batchCount);
+	}
 }
