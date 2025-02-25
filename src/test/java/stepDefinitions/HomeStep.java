@@ -13,9 +13,14 @@ public class HomeStep
 {
 	HomePage hp=new HomePage(DriverFactory.getDriver());
 	//WebDriver driver=new ChromeDriver();
+<<<<<<< HEAD
 	//sadhna
 	@Given("Admin is on Login Page")
 	public void admin_is_on_Login_page() 
+=======
+	@Given("Admin is on login Page")
+	public void admin_is_on_login_page() 
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
 	{
 		hp.landOnloginpage();   
 	    
@@ -159,8 +164,12 @@ public class HomeStep
 	@Then("admin should see first page icon disabled")
 	public void admin_should_see_first_page_icon_disabled() {
   
+<<<<<<< HEAD
 		   hp.verifyFirstpageDisable();
 		   //
+=======
+		hp.verifyFirstpageDisable();
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
 	}
 }
 

@@ -17,13 +17,21 @@ import org.testng.Assert;
 public class HomePage  {
   
 	WebDriver driver;//=new ChromeDriver();
+<<<<<<< HEAD
   @FindBy(xpath="//mat-toolbar//span[text()= ' LMS - Learning Management System ']")
+=======
+  @FindBy(xpath="//*[text()=\" LMS - Learning Management System \"]")
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
   private WebElement Lmstitle;
   @FindBy(xpath="//*[@class=\"mat-ripple mat-button-ripple\"]")
   private WebElement alltextAlighnment;
   
   
+<<<<<<< HEAD
   //sadhna
+=======
+  
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
 
   
   @FindBy(xpath="//app-doughnutchart")
@@ -33,13 +41,18 @@ public class HomePage  {
   private WebElement barchart;
   
 
+<<<<<<< HEAD
   @FindBy (xpath="//strong[normalize-space(text()) = 'Welcome sdetnumpyninja@gmail.com']")
+=======
+  @FindBy (xpath="//*[text()=\" Welcome sdetnumpyninja@gmail.com\"]")
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
   WebElement welcomeMessage;
   @FindBy(xpath="//*[text()=\"ADMIN\"]")
   WebElement role;
   
   @FindBy (xpath="//*[@class=\"widget-container\"]")
   WebElement count;
+<<<<<<< HEAD
   @FindBy (xpath="//button//span[text()=\"Home\"]")
   WebElement home;
   
@@ -58,6 +71,11 @@ public class HomePage  {
 
  // @FindBy (xpath="//*[@class=\"bottom\"]")
  // WebElement bottom;
+=======
+
+  @FindBy (xpath="//*[@class=\"bottom\"]")
+  WebElement bottom;
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
   
  // @FindBy (xpath="(//div[@class='top'])[2]")
  // WebElement top;
@@ -83,7 +101,13 @@ public class HomePage  {
   public HomePage(WebDriver driver) {
 		this.driver=driver;
 		PageFactory.initElements(driver,this);
+<<<<<<< HEAD
 		
+=======
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("--headless");
+		 driver = new ChromeDriver(options);
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
 		//driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
 	}
   
@@ -144,8 +168,13 @@ public void verifyNevigationbarTextSpelling() {
 }
 
 public void veryfyTitleSpelling() {
+<<<<<<< HEAD
 	String str="LMS - Learning Management System ";
 	Assert.assertEquals(Lmstitle.getText().toString(), str.trim());
+=======
+	String str=" LMS - Learning Management System ";
+	Assert.assertEquals(Lmstitle.getText().toString(), str);
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
 	
 }
 
@@ -169,6 +198,7 @@ List<WebElement> texts=driver.findElements(By.xpath("//*[@class=\"mat-button-wra
    
 
 
+<<<<<<< HEAD
 //for (int i = 0; i < texts.size(); i++) {
 //WebElement text = texts.get(i);
     
@@ -177,6 +207,16 @@ List<WebElement> texts=driver.findElements(By.xpath("//*[@class=\"mat-button-wra
     
 // Print the position (index) and value
 //System.out.println("Position: " + i + " | Value: " + value);
+=======
+for (int i = 0; i < texts.size(); i++) {
+WebElement text = texts.get(i);
+    
+// Get the value (text) of the element
+String value = text.getText();
+    
+// Print the position (index) and value
+System.out.println("Position: " + i + " | Value: " + value);
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
     
 //if (value.isEmpty()) {
 //    System.out.println("Element has no visible text.");
@@ -191,6 +231,7 @@ List<WebElement> texts=driver.findElements(By.xpath("//*[@class=\"mat-button-wra
 		
 		if(textname.equalsIgnoreCase("Home"))
 		{
+<<<<<<< HEAD
 			String hom=home.getText();
 			//listItems.get(2).getText())
 			//System.out.println("alighnment  "+textname, texts.get(0).getText());
@@ -198,44 +239,80 @@ List<WebElement> texts=driver.findElements(By.xpath("//*[@class=\"mat-button-wra
 			
 			Assert.assertEquals(hom,textname);
 			
+=======
+			
+			//listItems.get(2).getText())
+			//System.out.println("alighnment  "+textname, texts.get(0).getText());
+			System.out.println("name  "+ texts.get(i).getText());
+			Assert.assertEquals(texts.get(i).getText(),textname);
+			break;
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
 		
 	//System.out.println("alighnment  "+tex_Alignment);
 	}
 		else if(textname.equalsIgnoreCase("Program"))
 		{
+<<<<<<< HEAD
 			System.out.println("name    "+ program.getText());
 			Assert.assertEquals(program.getText(),textname);
 		
+=======
+			System.out.println("name    "+ texts.get(1).getText());
+			Assert.assertEquals(texts.get(i).getText(),textname);
+		break;
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
 		
 		//System.out.println("alighnment  "+tex_Alignment);
 	}
 		else if(textname.equalsIgnoreCase("Batch"))
 		{
+<<<<<<< HEAD
 			System.out.println("name  "+ batch.getText());
 			Assert.assertEquals(batch.getText(),textname);
 		
+=======
+			System.out.println("name  "+ texts.get(i).getText());
+			Assert.assertEquals(texts.get(i).getText(),textname);
+		break;
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
 		
 		//System.out.println("alighnment  "+tex_Alignment);
 	}
 		else if(textname.equalsIgnoreCase("Class"))
 		{
+<<<<<<< HEAD
 			System.out.println("name     "+ classname.getText());
 		Assert.assertEquals(classname.getText(),textname);
 		
+=======
+			System.out.println("name     "+ texts.get(i).getText());
+		Assert.assertEquals(textname, texts.get(i).getText());
+		break;
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
 		
 		
 	}
 		
 		else if(textname.equalsIgnoreCase("Logout"))
 		{
+<<<<<<< HEAD
 			System.out.println("name     "+logout.getText());
 		Assert.assertEquals(logout.getText(),textname);
 		
+=======
+			System.out.println("name     "+ texts.get(i).getText());
+		Assert.assertEquals(textname, texts.get(i).getText());
+		break;
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
 			
 	}
 	
 	}
+<<<<<<< HEAD
 
+=======
+}
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
 
 public void pieChartisAvailable() {
 	boolean isavailable=piechart.isDisplayed();
@@ -258,7 +335,11 @@ public void verifyEelcomeMessageAndRole() {
   String wel_msg=welcomeMessage.getText().toString();
 	
 	//boolean isWelcomemessageAvailable=welcomeMessage.isDisplayed();
+<<<<<<< HEAD
 	Assert.assertEquals(wel_msg,"Welcome sdetnumpyninja@gmail.com");
+=======
+	Assert.assertEquals(wel_msg," Welcome sdetnumpyninja@gmail.com");
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
 	
 }
   public void count(String value)
@@ -283,7 +364,11 @@ public void verifyEelcomeMessageAndRole() {
 			  String xpath = "(//div[@class='top'])[" + 2 + "]";
 			  WebElement top = driver.findElement(By.xpath(xpath));
 			  
+<<<<<<< HEAD
 			  String bottom_xpath = "//div[text()=\"User\"]";
+=======
+			  String bottom_xpath = "(//div[@class='bottom'])[" + 2 + "]";
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
 			   WebElement bottom = driver.findElement(By.xpath(bottom_xpath));
 			 
 		 String number=top.getText().toString();
@@ -299,7 +384,11 @@ public void verifyEelcomeMessageAndRole() {
 		  {
 			  String xpath = "(//div[@class='top'])[" + 3 + "]";
 			  WebElement top = driver.findElement(By.xpath(xpath));
+<<<<<<< HEAD
 			  String bottom_xpath = "//div[text()=\"Staff\"]";
+=======
+			  String bottom_xpath = "(//div[@class='bottom'])[" + 3 + "]";
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
 			   WebElement bottom = driver.findElement(By.xpath(bottom_xpath));
 			   String number=top.getText().toString();
 				 String valuename=bottom.getText().toString();
@@ -315,8 +404,11 @@ public void verifyEelcomeMessageAndRole() {
 			  WebElement top = driver.findElement(By.xpath(xpath));
 			  
 			  String number=top.getText().toString();
+<<<<<<< HEAD
 			  String bottom_xpath = "//div[text()=\"Batches\"]";
 			   WebElement bottom = driver.findElement(By.xpath(bottom_xpath));
+=======
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
 				 String valuename=bottom.getText().toString();
 				 
 				 System.out.println("number  =" +number    +"bottom value  =" + valuename);
@@ -324,7 +416,11 @@ public void verifyEelcomeMessageAndRole() {
 	 }
 		  else  if(value.equalsIgnoreCase("Programs"))
 		  {
+<<<<<<< HEAD
 			  String bottom_xpath = "//div[text()=\"Programs\"]";
+=======
+			  String bottom_xpath = "(//div[@class='bottom'])[" + 5 + "]";
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
 			   WebElement bottom = driver.findElement(By.xpath(bottom_xpath));
 			  String xpath = "(//div[@class='top'])[" + 5 + "]";
 			  WebElement top = driver.findElement(By.xpath(xpath));
@@ -365,14 +461,22 @@ public void verifyFiveStaffdata() {
 		
 		if(previous.isEnabled())
 		{
+<<<<<<< HEAD
 			previous.click();
+=======
+		nextpage.click();
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
 		List<WebElement> staffListnextpage = driver.findElements(By.xpath("//*[@class=\"mat-row cdk-row ng-star-inserted\"]"));
 		Assert.assertEquals(staffListnextpage.size(), 5);
 		}
 		
 		if(firstpage.isEnabled())
 		{
+<<<<<<< HEAD
 			firstpage.click();
+=======
+		nextpage.click();
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
 		List<WebElement> staffListnextpage = driver.findElements(By.xpath("//*[@class=\"mat-row cdk-row ng-star-inserted\"]"));
 		//int staffdata=staffList.size();
 		Assert.assertEquals(staffListnextpage.size(), 5);
@@ -385,7 +489,10 @@ public void verifyPreviouspageDisable() {
 }
 public void verifyFirstpageDisable() {
 	Assert.assertEquals(firstpage.isEnabled(), false);
+<<<<<<< HEAD
 	//
+=======
+>>>>>>> 5590d9414dfa4a348de0bf9952f16a92336b24bb
 	
 }
 
