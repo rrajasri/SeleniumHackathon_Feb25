@@ -24,7 +24,6 @@ public class LogoutStep {
 
 	@When("Admin clicks on the logout in the menu bar")
 	public void admin_clicks_on_the_logout_in_the_menu_bar() {
-	    
 		logout.clickLogout();
 	}
 
