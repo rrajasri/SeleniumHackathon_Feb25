@@ -16,15 +16,15 @@ import utilitities.ConfigReader;
 //				"io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
 //				"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:" 
 		monochrome = true,
-		 tags = "")
-public class TestRunner extends AbstractTestNGCucumberTests {
+		 tags = "@v1")
+public class TestRunner {
 
 //	@BeforeTest
 //	@Parameters("browser")
 //	public void defineBrowser(String browser) {
 //		ConfigReader.setBrowserType(browser);
 //	}
-
+//
 //	@Override
 //	@DataProvider(parallel = true)
 //	public Object[][] scenarios() {

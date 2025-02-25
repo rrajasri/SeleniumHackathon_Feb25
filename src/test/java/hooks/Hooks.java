@@ -52,7 +52,7 @@ public class Hooks {
 			byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 			scenario.attach(screenshot, "image/png", scenario.getName());
 			Allure.addAttachment("Failed Screenshot", new ByteArrayInputStream(screenshot));
-			 LoggerLoad.error("Scenario Failed: " + scenario.getName());
+		     LoggerLoad.error("Scenario Failed: " + scenario.getName());
 		}
 	}
 
