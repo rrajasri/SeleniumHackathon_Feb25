@@ -10,7 +10,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
-
 import driverFactory.DriverFactory;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -31,9 +30,10 @@ public class Hooks {
 		driverFactory = new DriverFactory();
 		prop = ConfigReader.initializeprop();
 		String browser = prop.getProperty("browser");
-		// String browser = ConfigReader.getBrowserType();
+	    //String browser = ConfigReader.getBrowserType();
 		driver = driverFactory.initializeBrowser(browser);
 		driver.get(prop.getProperty("URL"));
+		 
 	}
 
 //	@After(order = 0)
@@ -41,6 +41,7 @@ public class Hooks {
 //		if (DriverFactory.getDriver() != null) {
 //			DriverFactory.getDriver().quit();
 //			DriverFactory.removeDriver();
+//	
 //		}
 //	}
 

@@ -1,11 +1,10 @@
  Feature: Program Pagination 
  
  Background:
- Given Admin is logged into application 
- When Admin click program button 
- Then Admin redirected to progam page
+ Given Admin is on home page after Login
  
- Scenario: Verify Admin is able to click Next page link
+ @pagination1
+    Scenario: Verify Admin is able to click Next page link
     Given Admin is on Program page
     When Admin clicks Next page link on the program table
     Then Admin should see the Pagination has Next active link
