@@ -159,7 +159,8 @@ public class HomeStep
 	@Then("admin should see first page icon disabled")
 	public void admin_should_see_first_page_icon_disabled() {
   
-		hp.verifyFirstpageDisable();
+		   hp.verifyFirstpageDisable();
+		   //
 	}
 }
 
