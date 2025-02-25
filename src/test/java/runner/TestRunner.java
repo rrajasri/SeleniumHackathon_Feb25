@@ -16,7 +16,10 @@ import utilitities.ConfigReader;
 //				"io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
 //				"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:" 
 		monochrome = true,
-		 tags = "")
+
+		 tags = " @v1")
+
+
 public class TestRunner extends AbstractTestNGCucumberTests {
 
 //	@BeforeTest
