@@ -18,7 +18,6 @@ import io.qameta.allure.Allure;
 import utilitities.ConfigReader;
 import utilitities.LoggerLoad;
 
-
 public class Hooks {
 
 	public WebDriver driver;
@@ -27,19 +26,17 @@ public class Hooks {
 
 	@Before
 	public void beforeScenario(Scenario scenario) {
-		
+
 		driverFactory = new DriverFactory();
 		prop = ConfigReader.initializeprop();
 		String browser = prop.getProperty("browser");
 
-	    //String browser = ConfigReader.getBrowserType();
+		// String browser = ConfigReader.getBrowserType();
 		driver = driverFactory.initializeBrowser(browser);
 		driver.get(prop.getProperty("URL"));
 		LoggerLoad.info("Scenario passed: " + scenario.getName() + " =====");
-		 
+
 	}
-
-
 
 	@After(order = 0)
 	public void quitBrowser() {
@@ -49,14 +46,13 @@ public class Hooks {
 		}
 	}
 
-
 	@After(order = 1)
 	public void tearDown(Scenario scenario) {
 		if (scenario.isFailed()) {
 			byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 			scenario.attach(screenshot, "image/png", scenario.getName());
 			Allure.addAttachment("Failed Screenshot", new ByteArrayInputStream(screenshot));
-			 LoggerLoad.error("Scenario Failed: " + scenario.getName());
+			LoggerLoad.error("Scenario Failed: " + scenario.getName());
 		}
 	}
 

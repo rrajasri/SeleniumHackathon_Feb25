@@ -1,14 +1,14 @@
  Feature: Program Pagination 
  
-<<<<<<< HEAD
+
  Background:
  Given Admin is on home page after Login
-=======
+
 Background: Verify that Admin is able to navigate to Program page
  Given Admin is on home page after Login
  When Admin click program button 
 
->>>>>>> main
+
  
  @pagination1
     Scenario: Verify Admin is able to click Next page link
