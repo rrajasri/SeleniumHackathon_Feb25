@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
+
 import driverFactory.DriverFactory;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -17,6 +18,7 @@ import io.cucumber.java.Scenario;
 import io.qameta.allure.Allure;
 import utilitities.ConfigReader;
 import utilitities.LoggerLoad;
+
 
 public class Hooks {
 
@@ -26,16 +28,14 @@ public class Hooks {
 
 	@Before
 	public void beforeScenario(Scenario scenario) {
-
+		
 		driverFactory = new DriverFactory();
 		prop = ConfigReader.initializeprop();
 		String browser = prop.getProperty("browser");
-
-		// String browser = ConfigReader.getBrowserType();
+		//String browser = ConfigReader.getBrowserType();
 		driver = driverFactory.initializeBrowser(browser);
 		driver.get(prop.getProperty("URL"));
 		LoggerLoad.info("Scenario passed: " + scenario.getName() + " =====");
-
 	}
 
 	@After(order = 0)
@@ -52,7 +52,7 @@ public class Hooks {
 			byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 			scenario.attach(screenshot, "image/png", scenario.getName());
 			Allure.addAttachment("Failed Screenshot", new ByteArrayInputStream(screenshot));
-			LoggerLoad.error("Scenario Failed: " + scenario.getName());
+			 LoggerLoad.error("Scenario Failed: " + scenario.getName());
 		}
 	}
 
