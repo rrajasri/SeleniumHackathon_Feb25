@@ -1,7 +1,7 @@
 Feature: Batch Functionality
 
 Background: Edit icon Validation
-
+Given Admin is on home page after Login
 
     Scenario: Validate Edit icon feature in any row
     Given Admin is on the batch page
@@ -30,5 +30,5 @@ Background: Edit icon Validation
 
     Scenario: validate cancel button in Batch details pop up
     Given Admin is on the Batch Details Page
-    When Admin enters the valid data to all the mandatory fields and click cancel button
+    When Admin enters the valid data to all the mandatory edit fields and click cancel button
     Then Admin can see the batch details popup closes without editing the batch

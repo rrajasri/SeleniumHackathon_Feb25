@@ -5,6 +5,13 @@
 	<groupId>Team5_BugDetectors</groupId>
 	<artifactId>Team5_BugDetectors</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	
+	
+	
+	
+	
+	
+	
 	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
@@ -61,11 +68,11 @@
 			<version>5.3.0</version>
 		</dependency>
 		<!--https://mvnrepository.com/artifact/io.qameta.allure/allure-cucumber7-jvm -->
-		<dependency>
+	<!--	<dependency>
 			<groupId>io.qameta.allure</groupId>
 			<artifactId>allure-cucumber7-jvm</artifactId>
 			<version>2.29.1</version>
-		</dependency>
+		</dependency> -->
 		<!--
 		https://mvnrepository.com/artifact/tech.grasshopper/extentreports-cucumber7-adapter 
 		<dependency>
@@ -83,7 +90,7 @@
 		<dependency>
 			<groupId>io.qameta.allure</groupId>
 			<artifactId>allure-testng</artifactId>
-			<version>2.29.1</version>
+			<version>2.29.0</version>
 		</dependency>
 		<!--https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
 		<dependency>

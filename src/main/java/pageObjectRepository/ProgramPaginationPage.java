@@ -1,10 +1,15 @@
 package pageObjectRepository;
 
+import java.time.Duration;
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ProgramPaginationPage {
 	
@@ -15,7 +20,7 @@ public class ProgramPaginationPage {
 		this.driver = driver;
 		
 	}
-	private By Next =  By.xpath("//span[contains(@class, 'p-paginator-icon') and contains(@class, 'pi-angle-right')]");
+	private By Next =  By.xpath("//span[@class='p-paginator-icon pi pi-angle-double-right']");
 	private By disblednext = By.xpath("//span[contains(@class  , 'p-paginator-current')]");
 	private By program = By.xpath("//button//span[text() ='Program']"); 
 	private By doublenext = By.xpath("//span[contains(@class  , 'pi pi-angle-double-right')]");
@@ -24,8 +29,10 @@ public class ProgramPaginationPage {
 	private By doublePrevious = By.xpath("//button[contains(@class , 'p-paginator-first')]");
 	private By previous = By.xpath("//button[contains(@class , 'p-paginator-prev')]");
 	private By totalentries = By.xpath("//span[contains(text() , 'entries')]");
+	private By Tablerows = By.xpath("//tbody[@class='p-datatable-tbody']//tr[@class = 'ng-star-inserted']");
 	
-	//private WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+	
+	private WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 	//private JavascriptExecutor js = (JavascriptExecutor) driver;
 	
 	public void clickProgram() {
@@ -43,9 +50,9 @@ public class ProgramPaginationPage {
 		
 	 }
 	 
-	 public boolean Nextisactive() {
+	 public String Nextisactive() {
 		 
-		return driver.findElement(Next).isEnabled();
+		return driver.findElement(Next).getDomProperty("disabled");
 		 
 	 }
 	 
@@ -56,10 +63,10 @@ public class ProgramPaginationPage {
 		 
 	 }
 	 
-	 public boolean disableNextcheck() {
+	 public String disableNextcheck() {
 		 
-		 WebElement disable = driver.findElement(doublenext);
-		 return disable.isEnabled();
+		 WebElement disable = driver.findElement(Next);
+		 return disable.getDomAttribute("disabled");
 		 }
 	 
 	 public int gettoatalentries() {
@@ -76,11 +83,17 @@ public class ProgramPaginationPage {
 	 
 	 public void goToLastPageUsingNextButton() {
 		 JavascriptExecutor js = (JavascriptExecutor) driver;
-		    while (driver.findElement(Next).isEnabled()) {
-		    	
-		      WebElement next =   driver.findElement(Next);
+		 WebElement next =   driver.findElement(Next);
+		    while (next.isEnabled()) {
+		    	//next.click();
 		        js.executeScript("arguments[0].click();", next);
+		        if(next.isEnabled() == false)
+		        {
+		        	System.out.println("print it is eecuting");
+		        }
+		        break;
 		    }
+		    
 		}
 	 
 	 public void goToLastPage() {
@@ -90,6 +103,7 @@ public class ProgramPaginationPage {
 
 		        if (driver.findElements(lastPageNumber).size() > 0) {
 		            driver.findElement(lastPageNumber).click();  // Click last page directly
+		            System.out.println("testing");
 		        } else {
 		            goToLastPageUsingNextButton();  // Click "Next" until disabled
 		        }
@@ -105,10 +119,19 @@ public class ProgramPaginationPage {
 	        return (firstEntryNumber / entriesPerPage) + 1;  // Calculate the current page number
 	    }
 	 
-	 public boolean checkPreviousbutton() {
+	 public void Clickprevoiuspage() {
+		 
+		int currentpage =   getCurrentPageNumber(10);
+		int previouspage = currentpage - 1;
+		String prviousxpath = String.format("//button[contains(@class, 'p-paginator-page') and text()='%d']", previouspage);
+		driver.findElement(By.xpath(prviousxpath)).click();
+		 
+	 }
+	 
+	 public String checkPreviousbutton() {
 		 
 		
-		 return  driver.findElement(previous).isEnabled();
+		 return  driver.findElement(previous).getDomAttribute("disabled");
 		 
 		
 	 }
@@ -118,21 +141,32 @@ public class ProgramPaginationPage {
 		 js.executeScript("arguments[0].click();", first);
 	  }
 	 
-	 public boolean checkdoubleprevious() {
+	 public  String checkdoubleprevious() {
 		 
-		return driver.findElement(doublePrevious).isEnabled();
+		return driver.findElement(doublePrevious).getDomAttribute("disabled");
 		 
 	 }
 	 
 	 public void clickPrevious() {
+		
 		 
-		// Actions actions = new Actions(driver);
-		WebElement previ= driver.findElement(previous);
-		//actions.scrollToElement(previ).click().perform();
+		WebElement element= driver.findElement(previous);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("arguments[0].click();", previ);
+		js.executeScript("arguments[0].click();", element);
+		//WebElement element = wait.until(ExpectedConditions.elementToBeClickable(previous));
+		//element.click();
 
 	 }
+	 
+	 public int getRows() {
+		 
+		 List<WebElement> row = driver.findElements(Tablerows);
+		int rowCount = row.size();
+		return rowCount;
+					
+	 }
+	 
+	
 
 	
 }
